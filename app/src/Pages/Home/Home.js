@@ -1,20 +1,22 @@
-import React, { Fragment } from 'react'
-import { useSnackbar } from 'notistack';
+import React, { Fragment } from "react";
+import { useSnackbar } from "notistack";
+import { Button, TextField } from "@mui/material";
 
 const Home = () => {
-
   const { enqueueSnackbar } = useSnackbar();
   const handleClick = (type) => {
-    enqueueSnackbar('I love hooks', { variant: type })
+    enqueueSnackbar("I love hooks", { variant: type });
   };
 
   return (
     <Fragment>
-      <button onClick={() => handleClick('error')}>Error</button>
-      <button onClick={() => handleClick('success')}>sucesso</button>
+      <TextField label={"E-mail"}></TextField>
+      <Button variant="contained" onClick={() => handleClick("error")}>
+        Error
+      </Button>
+      <Button onClick={() => handleClick("success")}>sucesso</Button>
     </Fragment>
-
   );
-}
+};
 
-export default Home
+export default Home;

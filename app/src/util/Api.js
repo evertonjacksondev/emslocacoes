@@ -36,7 +36,6 @@ export const deleteReservaId = (_id, success, error) => {
 };
 
 export const postCreateReserva = (body, success, error) => {
-
   try {
 
     if (!body.category) throw 'required Category'
@@ -66,7 +65,6 @@ export const postCreateReserva = (body, success, error) => {
 }
 
 export const putReservaId = (_id, body, success, error) => {
-
   try {
 
     if (!body.category) throw 'required Category'
@@ -129,7 +127,6 @@ export const deleteCatalogId = (_id, success, error) => {
 };
 
 export const postCreateCatalog = (body, success, error) => {
-
   try {
 
     if (!body.category) throw 'required Category'
