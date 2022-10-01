@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { useSnackbar } from 'notistack';
 
 const Home = () => {
+
+  const { enqueueSnackbar } = useSnackbar();
+  const handleClick = (type) => {
+    enqueueSnackbar('I love hooks', { variant: type })
+  };
+
   return (
-    <div>Home</div>
-  )
+    <Fragment>
+      <button onClick={() => handleClick('error')}>Error</button>
+      <button onClick={() => handleClick('success')}>sucesso</button>
+    </Fragment>
+
+  );
 }
 
 export default Home
