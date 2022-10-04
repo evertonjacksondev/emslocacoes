@@ -58,7 +58,6 @@ const Catalog = () => {
                   <Chip color='info' label={'Alugado'} />
                 </Grid>
                 <Grid item >
-
                   <Avatar sx={{ width: 100, height: 100, borderRadius: '10px' }} src='https://www.zeene.com.br/mkt/imagens/ZN4242022.jpg' variant='square'>
                     B
                   </Avatar>

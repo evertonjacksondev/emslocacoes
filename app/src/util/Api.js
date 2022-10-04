@@ -1,12 +1,13 @@
 const axios = require('axios');
 
+let baseUrl = 'https://ironrest.herokuapp.com';
 
 export const getReserva = (success, error) => {
 
   const configAxios = {
     method: 'get',
     timeout: 20000,
-    url: "https://ironrest.herokuapp.com/ems-reserva",
+    url: `${baseUrl}/ems-reserva`,
   };
 
 
@@ -50,18 +51,18 @@ export const postCreateReserva = (body, success, error) => {
     if (!body.phoneNumber) throw 'required PhoneNumber '
     if (!body.address) throw 'required Address'
 
-  const configAxios = {
-    method: 'post',
-    timeout: 20000,
-    url: "https://ironrest.herokuapp.com/ems-reserva",
-    data: body,
-  };
+    const configAxios = {
+      method: 'post',
+      timeout: 20000,
+      url: "https://ironrest.herokuapp.com/ems-reserva",
+      data: body,
+    };
 
 
-  axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
-} catch (error) {
-  error(error.response ? error.response.data : error);
-}
+    axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
+  } catch (error) {
+    error(error.response ? error.response.data : error);
+  }
 }
 
 export const putReservaId = (_id, body, success, error) => {
@@ -79,16 +80,16 @@ export const putReservaId = (_id, body, success, error) => {
     if (!body.phoneNumber) throw 'required PhoneNumber '
     if (!body.address) throw 'required Address'
 
-  const configAxios = {
-    method: 'get',
-    timeout: 20000,
-    url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
-    data: body,
-  };
+    const configAxios = {
+      method: 'get',
+      timeout: 20000,
+      url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
+      data: body,
+    };
 
-  axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
-} catch (error){
-  error(error.response ? error.response.data : error);
+    axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
+  } catch (error) {
+    error(error.response ? error.response.data : error);
   }
 }
 
