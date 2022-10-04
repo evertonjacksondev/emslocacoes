@@ -1,7 +1,15 @@
-import { Button, Divider, Grid, Icon, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  Icon,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { Fragment } from "react";
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ReservaInformation = () => {
   return (
@@ -90,19 +98,33 @@ const ReservaInformation = () => {
           <Divider style={{ padding: 30 }}></Divider>
         </Grid>
         <Grid
-        container
-        style={{
-          justifyContent: 'center',
-          padding: 30,
-        }}
-        spacing={5}
+          container
+          style={{
+            justifyContent: "center",
+            padding: 30,
+          }}
+          spacing={5}
         >
-        <Grid item lg={'auto'} xs={'auto'}>
-        <Button startIcon={<AddIcon/>} size="large" variant="contained" color="success">Salvar</Button>
-        </Grid>
-        <Grid item lg={'auto'} xs={'auto'}>
-        <Button startIcon={<DeleteIcon/>} size="large" variant="contained" color="error">Excluir</Button>
-        </Grid>
+          <Grid item lg={"auto"} xs={"auto"}>
+            <Button
+              startIcon={<AddIcon />}
+              size="large"
+              variant="contained"
+              color="success"
+            >
+              Salvar
+            </Button>
+          </Grid>
+          <Grid item lg={"auto"} xs={"auto"}>
+            <Button
+              startIcon={<DeleteIcon />}
+              size="large"
+              variant="contained"
+              color="error"
+            >
+              Excluir
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Fragment>
