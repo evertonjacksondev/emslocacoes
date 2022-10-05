@@ -5,12 +5,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Catalog = () => {
-
-
   const [startDate, setStartDate] = useState('2022-01-01');
   const [endDate, setEndDate] = useState('2022-12-01');
   const [someDetail, setSomeDetail] = useState(false);
-
 
   return (
     <Fragment style={{ padding: 40 }} >
