@@ -16,17 +16,22 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../src/Images/7827920359_6d3bc5a7-fd0e-4e67-8438-36ffd1090e08.webp'
 const drawerWidth = 240;
-const navItems = ['Home', 'Vendas', 'Fatura', 'Carrinho', 'Conta', 'Sair'];
-function NavBar(props) {
+const navItems = ['Home', 'Reserva', 'CreateNewCar', 'Catalogo', 'Sair'];
+
+const NavBar = (props) => {
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
   let navigate = useNavigate();
+
   const routeChange = (newPath) => {
     navigate(newPath);
-  }
+  };
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -43,7 +48,10 @@ function NavBar(props) {
       </List>
     </Box>
   );
+
   const container = window !== undefined ? () => window().document.body : undefined;
+
+
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar style={{ backgroundColor: '#1ED4B1' }} component="nav">
@@ -80,7 +88,7 @@ function NavBar(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },

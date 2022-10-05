@@ -19,7 +19,7 @@ export const getReservaId = (_id, success, error) => {
   const configAxios = {
     method: 'get',
     timeout: 20000,
-    url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
+    url: `${baseUrl}/ems-reserva/${_id}`,
   };
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
@@ -30,7 +30,7 @@ export const deleteReservaId = (_id, success, error) => {
   const configAxios = {
     method: 'delete',
     timeout: 20000,
-    url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
+    url: `${baseUrl}/ems-reserva/${_id}`,
   };
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
@@ -54,7 +54,7 @@ export const postCreateReserva = (body, success, error) => {
     const configAxios = {
       method: 'post',
       timeout: 20000,
-      url: "https://ironrest.herokuapp.com/ems-reserva",
+      url: `${baseUrl}/ems-reserva`,
       data: body,
     };
 
@@ -83,7 +83,7 @@ export const putReservaId = (_id, body, success, error) => {
     const configAxios = {
       method: 'get',
       timeout: 20000,
-      url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
+      url: `${baseUrl}/ems-reserva/${_id}`,
       data: body,
     };
 
@@ -98,7 +98,7 @@ export const getCatalog = (success, error) => {
   const configAxios = {
     method: 'get',
     timeout: 20000,
-    url: "https://ironrest.herokuapp.com/ems-reserva",
+    url: `${baseUrl}/ems-reserva`,
   };
 
 
@@ -110,7 +110,7 @@ export const getCatalogId = (_id, success, error) => {
   const configAxios = {
     method: 'get',
     timeout: 20000,
-    url: `https://ironrest.herokuapp.com/ems-reserva/${_id}`,
+    url: `${baseUrl}/ems-reserva/${_id}`,
   };
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
@@ -121,7 +121,7 @@ export const deleteCatalogId = (_id, success, error) => {
   const configAxios = {
     method: 'delete',
     timeout: 20000,
-    url: `https://ironrest.herokuapp.com/ems-Catalog/${_id}`,
+    url: `${baseUrl}/ems-Catalog/${_id}`,
   };
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
@@ -145,7 +145,7 @@ export const postCreateCatalog = (body, success, error) => {
     const configAxios = {
       method: 'post',
       timeout: 20000,
-      url: "https://ironrest.herokuapp.com/ems-catalog",
+      url: `${baseUrl}/ems-catalog`,
       data: body,
     };
     axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
@@ -173,7 +173,7 @@ export const putCatalogId = (_id, body, success, error) => {
     const configAxios = {
       method: 'get',
       timeout: 20000,
-      url: `https://ironrest.herokuapp.com/ems-catalog/${_id}`,
+      url: `${baseUrl}/ems-catalog/${_id}`,
       data: body,
     };
 
