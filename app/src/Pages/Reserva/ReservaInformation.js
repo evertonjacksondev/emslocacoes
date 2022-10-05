@@ -77,7 +77,7 @@ const ReservaInformation = () => {
           <Typography variant="h4">Dados do Cliente</Typography>
         </Grid>
         <Grid item lg={6} xs={6}>
-          <TextField size={"small"} fullWidth label={"Nome"}></TextField>
+          <TextField helperText="Incorrect entry."error size={"small"} fullWidth label={"Nome"}></TextField>
         </Grid>
         <Grid item lg={3} xs={6}>
           <TextField size={"small"} fullWidth label={"Telefone"}></TextField>

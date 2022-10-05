@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-// import logo from '../../../src/Images/7827920359_6d3bc5a7-fd0e-4e67-8438-36ffd1090e08.webp'
+import logo from '../../../src/Images/7827920359_6d3bc5a7-fd0e-4e67-8438-36ffd1090e08.webp'
 const drawerWidth = 240;
 const navItems = ['Home', 'Vendas', 'Fatura', 'Carrinho', 'Conta', 'Sair'];
 function NavBar(props) {
@@ -57,7 +57,7 @@ function NavBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img style={{ width: 120 }} src={'logo'}></img>
+          <img style={{ width: 120 }} src={logo}></img>
           <Typography
             variant="h6"
             component="div"
