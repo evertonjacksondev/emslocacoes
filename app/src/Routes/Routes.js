@@ -14,6 +14,7 @@ const AppRoute = () => {
         <React.Fragment>
         <NavBar/>
             <Routes>
+                <Route path="*" element={<Home />} />
                 <Route path="/Catalogo" element={<Catalogo />} />
                 <Route path="/CreateNewCar" element={<CreateNewCar />} />
                 <Route path="/home" element={<Home />} />
