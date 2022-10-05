@@ -20,7 +20,7 @@ const ReservaInformation = () => {
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          padding: 50,
+          padding: 10,
         }}
         spacing={2}
       >
@@ -77,7 +77,7 @@ const ReservaInformation = () => {
         </Grid>
 
         <Grid item lg={12} xs={12}>
-          <Divider style={{ padding: 30 }}></Divider>
+          <Divider style={{ padding: 20 }}></Divider>
         </Grid>
       </Grid>
 
@@ -86,8 +86,9 @@ const ReservaInformation = () => {
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          paddingLeft: 50,
-          paddingRight: 50,
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 20,
         }}
         spacing={2}
       >
@@ -96,7 +97,7 @@ const ReservaInformation = () => {
         </Grid>
 
         <Grid item lg={6} xs={6}>
-          <TextField helperText="Incorrect entry."error size={"small"} fullWidth label={"Nome"}></TextField>
+          <TextField size={"small"} fullWidth label={"Nome"}></TextField>
         </Grid>
 
         <Grid item lg={3} xs={6}>
@@ -120,7 +121,7 @@ const ReservaInformation = () => {
         </Grid>
 
         <Grid item lg={12} xs={12}>
-          <Divider style={{ padding: 30 }}></Divider>
+          <Divider style={{ padding: 20 }}></Divider>
         </Grid>
 
         <Grid
