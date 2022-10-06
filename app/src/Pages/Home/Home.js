@@ -3,10 +3,11 @@ import Grid from '@mui/material/Grid';
 import { Avatar, Button, Chip, Divider, ListItem, Paper, TextField, Typography } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { formatDate } from '../../lib/date';
 
 const Catalog = () => {
-  const [startDate, setStartDate] = useState('2022-01-01');
-  const [endDate, setEndDate] = useState('2022-12-01');
+  const [startDate, setStartDate] = useState(formatDate(new Date()));
+  const [endDate, setEndDate] = useState(formatDate(new Date()));
   const [someDetail, setSomeDetail] = useState(false);
 
   return (
