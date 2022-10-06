@@ -8,10 +8,11 @@ import {
 import React, { Fragment, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { formatDate } from "../../lib/date";
 
 const ReservaInformation = () => {
-  const [startDate, setStartDate] = useState('2022-01-01');
-  const [endDate, setEndDate] = useState('2022-12-01'); 
+  const [startDate, setStartDate] = useState(formatDate(new Date()));
+  const [endDate, setEndDate] = useState(formatDate(new Date().setDate(new Date().getDate()+1))); 
 
   return (
     <Fragment>
