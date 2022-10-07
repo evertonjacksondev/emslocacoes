@@ -1,9 +1,10 @@
-import MUIDataTable from 'mui-datatables';
-import React from 'react'
-
+import { Button } from "@mui/material";
+import MUIDataTable from "mui-datatables";
+import React, { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Reserva = () => {
-
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -12,7 +13,7 @@ const Reserva = () => {
       options: {
         filter: true,
         sort: true,
-      }
+      },
     },
     {
       name: "company",
@@ -20,7 +21,7 @@ const Reserva = () => {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "city",
@@ -28,7 +29,7 @@ const Reserva = () => {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "state",
@@ -36,7 +37,7 @@ const Reserva = () => {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
   ];
 
@@ -44,22 +45,37 @@ const Reserva = () => {
     { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
     { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
     { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-    { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
+    {
+      name: "James Houston",
+      company: "Test Corp",
+      city: "Dallas",
+      state: "TX",
+    },
   ];
 
   const options = {
-    filterType: 'checkbox',
+    filterType: "checkbox",
   };
 
-
   return (
+    <Fragment>
+      <Button
+        variant="contained"
+        color="info"
+        onClick={() => {
+          navigate('/reservainformation');
+        }}
+      >
+        Adicionar Reserva
+      </Button>
+      <MUIDataTable
+        title={"Employee List"}
+        data={data}
+        columns={columns}
+        options={options}
+      />
+    </Fragment>
+  );
+};
 
-    <MUIDataTable
-      title={"Employee List"}
-      data={data}
-      columns={columns}
-      options={options} />
-  )
-}
-
-export default Reserva
+export default Reserva;

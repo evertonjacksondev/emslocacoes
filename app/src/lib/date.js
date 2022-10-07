@@ -2,6 +2,7 @@
   return num.toString().padStart(2, '0');
 }
 export const formatDate = (date) => {
+  console.log(date);
   if (date){
   return [
     date.getFullYear(),
