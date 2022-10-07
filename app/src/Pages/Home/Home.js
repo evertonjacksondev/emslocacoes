@@ -11,9 +11,9 @@ const Catalog = () => {
   const [someDetail, setSomeDetail] = useState(false);
 
   return (
-    <Fragment style={{ padding: 40 }} >
+    <Fragment  >
 
-      {/* Filtro */}
+
       <Paper style={{ margin: 25 }} elevation={2}>
         <Grid style={{ padding: 30 }} container xs={12} spacing={1}>
           <Grid item xs={12} md={6} lg={3}>
@@ -45,19 +45,18 @@ const Catalog = () => {
         </Grid>
       </Paper>
 
-      {/* Items */}
       <Grid container >
 
         <Grid item xs={12} md={6} lg={12}>
-          <ListItem >
+          <ListItem id='card-item'>
             <Paper style={{ padding: 25 }} elevation={3}>
               <Grid container spacing={2} justifyContent={'center'}>
                 <Grid item textAlign={'center'} lg={12} >
                   <Chip color='info' label={'Alugado'} />
                 </Grid>
                 <Grid item >
-                  <Avatar sx={{ width: 100, height: 100, borderRadius: '10px' }} src='https://www.zeene.com.br/mkt/imagens/ZN4242022.jpg' variant='square'>
-                    B
+                  <Avatar style={{ width: 100, height: 100, borderRadius: '10px' }} src='https://www.zeene.com.br/mkt/imagens/ZN4242022.jpg' variant='square'>
+                  
                   </Avatar>
                 </Grid>
               </Grid>
