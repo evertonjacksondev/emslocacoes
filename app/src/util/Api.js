@@ -50,6 +50,11 @@ export const postCreateReserva = (body, success, error) => {
     if (!body.zipCode) throw 'required ZipCode '
     if (!body.phoneNumber) throw 'required PhoneNumber '
     if (!body.address) throw 'required Address'
+    if (!body.num) throw 'required Number'
+    if (!body.city) throw 'required City'
+    if (!body.neighborhood) throw 'required Neighborhood'
+    if (!body.uf) throw 'required State'
+
 
     const configAxios = {
       method: 'post',
@@ -79,6 +84,10 @@ export const putReservaId = (_id, body, success, error) => {
     if (!body.zipCode) throw 'required ZipCode '
     if (!body.phoneNumber) throw 'required PhoneNumber '
     if (!body.address) throw 'required Address'
+    if (!body.num) throw 'required Number'
+    if (!body.city) throw 'required City'
+    if (!body.neighborhood) throw 'required Neighborhood'
+    if (!body.uf) throw 'required State'
 
     const configAxios = {
       method: 'get',
