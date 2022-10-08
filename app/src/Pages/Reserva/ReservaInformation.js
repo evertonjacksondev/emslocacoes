@@ -39,6 +39,13 @@ const ReservaInformation = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
+
+
+  useEffect(() => {
+
+    setEndDate(formatDate(new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))))
+
+  }, [startDate])
   const fillAdress = () => {
     getCep(
       zipCodeOrigin.replace("-", ""),
@@ -149,7 +156,11 @@ const ReservaInformation = () => {
             fullWidth
             value={startDate}
             onChange={({ target }) => {
-              setStartDate(target.value);
+              if (new Date(new Date(new Date(target.value).setHours(0, 0, 0, 0)).setDate(new Date(target.value).getDate() + 1)) >= new Date(new Date().setHours(0, 0, 0, 0))) {
+                setStartDate(target.value);
+              } else {
+                enqueueSnackbar("Selecione outra data", { variant: "error" })
+              }
             }}
             label={"Data de retirada"}
             type="date"
@@ -163,7 +174,13 @@ const ReservaInformation = () => {
             fullWidth
             value={endDate}
             onChange={({ target }) => {
-              setEndDate(target.value);
+
+              if (new Date(new Date(new Date(target.value).setHours(0, 0, 0, 0)).setDate(new Date(target.value).getDate() + 1)) >= new Date(new Date(startDate).setHours(0, 0, 0, 0)).setDate(new Date(startDate).getDate() + 1)) {
+                setEndDate(target.value);
+              } else {
+                enqueueSnackbar("Selecione outra data", { variant: "error" })
+              }
+
             }}
             label={"Data de devolução"}
             type="date"
@@ -348,7 +365,7 @@ const ReservaInformation = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Fragment>
+    </Fragment >
   );
 };
 
