@@ -9,13 +9,16 @@ import {
   Typography,
   FormControl,
 } from "@mui/material";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { formatDate } from "../../lib/date";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import UndoIcon from "@mui/icons-material/Undo";
+import { getCep } from "../../lib/cep";
+import { useSnackbar } from "notistack";
+import SearchIcon from '@mui/icons-material/Search';
 
 const ReservaInformation = () => {
   const [startDate, setStartDate] = useState(formatDate(new Date()));
@@ -27,6 +30,47 @@ const ReservaInformation = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [category, setCategory] = useState("");
   const [automaker, setAutomaker] = useState("");
+  const [price, setPrice] = useState("R$ 0,00");
+  const [address, setAdress] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [city, setCity] = useState("");
+  const [uf, setUf] = useState("");
+  const [num, setNum] = useState("");
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const fillAdress = () => {
+    getCep(
+      zipCodeOrigin.replace("-", ""),
+      (response) => {
+        let { logradouro, bairro, localidade, uf } = response;
+        if (logradouro) setAdress(logradouro);
+        if (bairro) setNeighborhood(bairro);
+        if (localidade) setCity(localidade);
+        if (uf) setUf(uf);
+        enqueueSnackbar("Cep consultado", { variant: "success" });
+      },
+      (error) => enqueueSnackbar("Cep não encontrado", { variant: "error" })
+    );
+  };
+
+  useEffect(() => {
+    if (category) {
+      let priceCategory = {
+        hatch: 50,
+        sedan: 70,
+        suv: 90,
+        utilitario: 80,
+        esportivo: 120,
+      };
+
+      let date1 = new Date(startDate);
+      let date2 = new Date(endDate);
+      let diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
+
+      setPrice("R$ " + diffDays * priceCategory[category.toLocaleLowerCase()]);
+    }
+  }, [category, startDate, endDate]);
 
   return (
     <Fragment>
@@ -51,26 +95,26 @@ const ReservaInformation = () => {
             value={category}
             label={"Categoria"}
             onChange={({ target }) => {
-              setCategory(target.value)
+              setCategory(target.value);
             }}
           >
             <MenuItem value={"Hatch"}>Hatch</MenuItem>
             <MenuItem value={"Sedan"}>Sedan</MenuItem>
             <MenuItem value={"SUV"}>SUV</MenuItem>
-            <MenuItem value={"Utilitário"}>Utilitário</MenuItem>
+            <MenuItem value={"Utilitario"}>Utilitário</MenuItem>
             <MenuItem value={"Esportivo"}>Esportivo de Luxo</MenuItem>
           </TextField>
         </Grid>
 
         <Grid item lg={3} xs={6}>
-        <TextField
+          <TextField
             select
             fullWidth
             size="small"
             value={automaker}
             label={"Marca"}
             onChange={({ target }) => {
-              setAutomaker(target.value)
+              setAutomaker(target.value);
             }}
           >
             <MenuItem value={"Audi"}>Audi</MenuItem>
@@ -90,7 +134,12 @@ const ReservaInformation = () => {
         </Grid>
 
         <Grid item lg={3} xs={6}>
-          <TextField size={"small"} fullWidth label={"Placa"}></TextField>
+          <TextField
+            inputProps={{ maxLength: 7 }}
+            size={"small"}
+            fullWidth
+            label={"Placa"}
+          ></TextField>
         </Grid>
 
         <Grid item lg={3} xs={6}>
@@ -123,6 +172,8 @@ const ReservaInformation = () => {
 
         <Grid item lg={3} xs={6}>
           <TextField
+            disabled={true}
+            value={price}
             size={"small"}
             fullWidth
             label={"Valor da reserva"}
@@ -149,7 +200,7 @@ const ReservaInformation = () => {
           <Typography variant="h4">Dados do Cliente</Typography>
         </Grid>
 
-        <Grid item lg={6} xs={6}>
+        <Grid item lg={5} xs={6}>
           <TextField size={"small"} fullWidth label={"Nome"}></TextField>
         </Grid>
 
@@ -167,7 +218,7 @@ const ReservaInformation = () => {
           </InputMask>
         </Grid>
 
-        <Grid item lg={3} xs={6}>
+        <Grid item lg={2} xs={6}>
           <InputMask
             size="small"
             name="sCepOrigem"
@@ -181,16 +232,44 @@ const ReservaInformation = () => {
           </InputMask>
         </Grid>
 
+        <Grid item lg={2} xs={6}>
+          <Button
+            startIcon={<SearchIcon />}
+            variant="contained"
+            size="large"
+            color="warning"
+            disabled={zipCodeOrigin == ''}
+            onClick={() => {
+              fillAdress();
+            }}
+          >
+            Consultar CEP
+          </Button>
+        </Grid>
+
         <Grid item lg={12} xs={6}>
-          <TextField size={"small"} fullWidth label={"Endereço"}></TextField>
+          <TextField value={address} onChange={(e) => setAdress(e.target.value)} size={"small"} fullWidth label={"Endereço"}></TextField>
         </Grid>
 
         <Grid item lg={2} xs={6}>
-          <TextField size={"small"} fullWidth label={"Numero"}></TextField>
+          <TextField value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} size={"small"} fullWidth label={"Bairro"}></TextField>
+        </Grid>
+
+
+        <Grid item lg={2} xs={6}>
+          <TextField value={num} onChange={(e) => setNum(e.target.value)} size={"small"} fullWidth label={"Numero"}></TextField>
         </Grid>
 
         <Grid item lg={4} xs={6}>
           <TextField size={"small"} fullWidth label={"Complemento"}></TextField>
+        </Grid>
+
+        <Grid item lg={2} xs={6}>
+          <TextField value={city} onChange={(e) => setCity(e.target.value)} size={"small"} fullWidth label={"Cidade"}></TextField>
+        </Grid>
+
+        <Grid item lg={2} xs={6}>
+          <TextField value={uf} onChange={(e) => setUf(e.target.value)} size={"small"} fullWidth label={"Estado"}></TextField>
         </Grid>
 
         <Grid item lg={12} xs={12}>
