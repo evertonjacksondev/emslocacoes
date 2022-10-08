@@ -1,7 +1,8 @@
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import React, { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const Reserva = () => {
   const navigate = useNavigate();
@@ -59,21 +60,50 @@ const Reserva = () => {
 
   return (
     <Fragment>
-      <Button
-        variant="contained"
-        color="info"
-        onClick={() => {
-          navigate('/reservainformation');
+      <Grid
+        container
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          padding: 10,
         }}
+        spacing={1}
       >
-        Adicionar Reserva
-      </Button>
-      <MUIDataTable
-        title={"Employee List"}
-        data={data}
-        columns={columns}
-        options={options}
-      />
+        <Grid item lg={"auto"} xs={"auto"}>
+          <Button
+            startIcon={<AddBoxIcon />}
+            variant="contained"
+            color="info"
+            onClick={() => {
+              navigate("/reservainformation");
+            }}
+          >
+            Adicionar Reserva
+          </Button>
+        </Grid>
+
+        <Grid
+          container
+          style={{
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            padding: 50,
+          }}
+          spacing={5}
+        >
+      
+        <MUIDataTable
+          item
+          fullWidth
+          lg={"auto"}
+          xs={"auto"}
+          title={"Employee List"}
+          data={data}
+          columns={columns}
+          options={options}
+        />
+        </Grid>
+      </Grid>
     </Fragment>
   );
 };

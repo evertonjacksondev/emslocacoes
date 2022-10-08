@@ -26,6 +26,7 @@ const ReservaInformation = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [category, setCategory] = useState("");
+  const [automaker, setAutomaker] = useState("");
 
   return (
     <Fragment>
@@ -62,7 +63,26 @@ const ReservaInformation = () => {
         </Grid>
 
         <Grid item lg={3} xs={6}>
-          <TextField size={"small"} fullWidth label={"Marca"}></TextField>
+        <TextField
+            select
+            fullWidth
+            size="small"
+            value={automaker}
+            label={"Marca"}
+            onChange={({ target }) => {
+              setAutomaker(target.value)
+            }}
+          >
+            <MenuItem value={"Audi"}>Audi</MenuItem>
+            <MenuItem value={"BMW"}>BMW</MenuItem>
+            <MenuItem value={"Chevrolet"}>Chevrolet</MenuItem>
+            <MenuItem value={"Fiat"}>Fiat</MenuItem>
+            <MenuItem value={"Honda"}>Honda</MenuItem>
+            <MenuItem value={"Jeep"}>Jeep</MenuItem>
+            <MenuItem value={"Nissan"}>Nissan</MenuItem>
+            <MenuItem value={"Toyota"}>Toyota</MenuItem>
+            <MenuItem value={"Volkswagen"}>Volkswagen </MenuItem>
+          </TextField>
         </Grid>
 
         <Grid item lg={3} xs={6}>
