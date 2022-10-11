@@ -1,18 +1,70 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Avatar, Button, Chip, Divider, ListItem, Paper, TextField, Typography } from '@mui/material';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Button, Paper, TextField } from '@mui/material';
 import { formatDate } from '../../lib/date';
+import { getCatalog, postCreateCatalog } from '../../util/Api';
+import Card from '../../Components/NavBar/Card';
+import { getMeliAds } from '../../lib/mockupDb';
 
 const Catalog = () => {
   const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [endDate, setEndDate] = useState(formatDate(new Date()));
-  const [someDetail, setSomeDetail] = useState(false);
+  const [data, setData] = useState([])
+  const [teste, setTeste] = useState([])
+
+
+  useEffect(() => {
+
+    getCatalog(
+      (response) => { setData(response) },
+      (error) => { }
+    )
+
+    // getMeliAds(
+    //   (response) => {
+    //     try {
+
+    //       let result = response.results.map(ad => {
+    //         return {
+    //           title: ad.title ? ad.title : '',
+    //           brand: ad.attributes.find(attribute => attribute.name == 'Marca')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Marca').value_name : '',
+    //           model: ad.attributes.find(attribute => attribute.name == 'Modelo')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Modelo').value_name : '',
+    //           version: ad.attributes.find(attribute => attribute.name == 'Versão')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Versão').value_name : '',
+    //           ano: ad.attributes.find(attribute => attribute.name == 'Ano')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Ano').value_name : '',
+    //           Transmissão: ad.attributes.find(attribute => attribute.name == 'Transmissão')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Transmissão').value_name : '',
+    //           motor: ad.attributes.find(attribute => attribute.name == 'Motor')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Motor').value_name : '',
+    //           combustivel: ad.attributes.find(attribute => attribute.name == 'Tipo de combustível')?.value_name ? ad.attributes.find(attribute => attribute.name == 'Tipo de combustível').value_name : '',
+    //           arcondicionado: ad.attributes.find(attribute => attribute.name == 'Ar-condicionado')?.value_name == 'Sim' ? true : false,
+    //           image: ad.thumbnail ? ad.thumbnail : '',
+    //           category: ''
+
+    //         }
+    //       })
+
+    //       setTeste(result)
+
+    //       for (let test of result) {
+
+    //         postCreateCatalog(test, () => { }, () => { })
+
+
+    //       }
+    //     } catch (error) {
+    //       error
+    //     }
+
+
+
+    //   },
+    //   (error) => { }
+    // )
+
+  }, [])
+
+
 
   return (
     <Fragment  >
-
 
       <Paper style={{ margin: 25 }} elevation={2}>
         <Grid style={{ padding: 30 }} container xs={12} spacing={1}>
@@ -45,63 +97,12 @@ const Catalog = () => {
         </Grid>
       </Paper>
 
-      <Grid container >
 
-        <Grid item xs={12} md={6} lg={12}>
-          <ListItem id='card-item'>
-            <Paper style={{ padding: 25 }} elevation={3}>
-              <Grid container spacing={2} justifyContent={'center'}>
-                <Grid item textAlign={'center'} lg={12} >
-                  <Chip color='info' label={'Alugado'} />
-                </Grid>
-                <Grid item >
-                  <Avatar style={{ width: 100, height: 100, borderRadius: '10px' }} src='https://www.zeene.com.br/mkt/imagens/ZN4242022.jpg' variant='square'>
-                  
-                  </Avatar>
-                </Grid>
-              </Grid>
-              <Typography
-                textAlign={'center'}>
-                <b>Renegede 1.8 Diesel</b>
-              </Typography>
-              <Typography
-                style={{ border: 4 }}
-                textAlign={'center'}>
-                JEEP | SPORTLINE | 2022
-              </Typography>
-
-              <Divider style={{ marginBottom: 10 }} />
-              <Grid container spacing={2}>
-                <Grid item xs={12} textAlign={'center'}>
-                  <Button
-                    size='small'
-                    startIcon={<AddBoxIcon />}
-                    variant='contained'>
-                    Reservar
-                  </Button>
-                </Grid>
-                <Grid item xs={12} textAlign={'center'}>
-                  <Button
-                    size='small'
-                    startIcon={<KeyboardArrowDownIcon />}
-                    variant='contained'
-                    onClick={() => setSomeDetail(!someDetail)}>
-
-                    Mais Detalhes
-                  </Button>
-
-                  {someDetail && (
-                    <Grid container justifyContent={'center'}>
-                      DETALHES...
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-            </Paper>
-          </ListItem>
+      {data.length > 0 && (
+        <Grid container > {data.map(item => <Card data={item} />)}
         </Grid>
 
-      </Grid>
+      )}
 
     </Fragment >
   )
