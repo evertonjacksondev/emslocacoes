@@ -1,3 +1,4 @@
+import { postCreateCatalog } from '../util/Api';
 const axios = require('axios');
 
 export const getMeliAds = (success, error) => {
@@ -10,3 +11,4 @@ export const getMeliAds = (success, error) => {
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
 };
+

@@ -53,7 +53,7 @@ const NavBar = (props) => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar style={{ backgroundColor: '#1ED4B1' }} component="nav">
+      <AppBar style={{ backgroundColor: 'primary' }} component="nav">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -73,7 +73,7 @@ const NavBar = (props) => {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button style={{ backgroundColor: '#1ED4B1' }} onClick={() => { routeChange(`/${item.toLocaleLowerCase()}`) }} key={item} sx={{ color: '#fff' }}>
+              <Button style={{ backgroundColor: 'primary' }} onClick={() => { routeChange(`/${item.toLocaleLowerCase()}`) }} key={item} sx={{ color: '#fff' }}>
                 {item}
               </Button>
             ))}

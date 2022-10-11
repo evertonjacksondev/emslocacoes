@@ -7,8 +7,15 @@ const Card = (props) => {
 
   const [someDetail, setSomeDetail] = useState(false);
 
-  return (
+  const sendMessage = (data) => {
 
+
+    let { title, combustivel } = data;
+
+    window.open(`https://api.whatsapp.com/send?phone=5511997831826&text=*Estou%20interessado*%0aVeiculo%0a${title}%0a${combustivel}%0aData%20da%20Retira:${props.startDate}%0aData%20da%20Devolução:${props.startDate}%0a*Preencha%20os%20Campos*%0aNome:%0aTelefone:%0aCEP:%0aEndereço%0aBairro:%0aNúmero:%0aCidade:%0aEstado:%0a`)
+  }
+
+  return (
 
     <Grid item xs={12} md={3} lg={3}>
       <ListItem id='card-item'>
@@ -40,7 +47,7 @@ const Card = (props) => {
                 size='small'
                 startIcon={<AddBoxIcon />}
                 variant='contained'
-                onClick={() => { }}>
+                onClick={() => { sendMessage(props.data) }}>
                 Reservar
               </Button>
             </Grid>

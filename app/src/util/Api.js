@@ -139,7 +139,6 @@ export const deleteCatalogId = (_id, success, error) => {
 export const postCreateCatalog = (body, success, error) => {
   try {
 
-
     const configAxios = {
       method: 'post',
       timeout: 20000,
