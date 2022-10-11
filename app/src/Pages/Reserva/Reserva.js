@@ -75,7 +75,7 @@ const Reserva = () => {
             variant="contained"
             color="info"
             onClick={() => {
-              navigate("/reservainformation");
+              navigate("/reserva/new");
             }}
           >
             Adicionar Reserva
@@ -91,17 +91,17 @@ const Reserva = () => {
           }}
           spacing={5}
         >
-      
-        <MUIDataTable
-          item
-          fullWidth
-          lg={"auto"}
-          xs={"auto"}
-          title={"Employee List"}
-          data={data}
-          columns={columns}
-          options={options}
-        />
+
+          <MUIDataTable
+            item
+            fullWidth
+            lg={"auto"}
+            xs={"auto"}
+            title={"Employee List"}
+            data={data}
+            columns={columns}
+            options={options}
+          />
         </Grid>
       </Grid>
     </Fragment>

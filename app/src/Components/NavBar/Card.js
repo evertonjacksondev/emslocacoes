@@ -2,6 +2,8 @@ import { Avatar, Button, Chip, Divider, Grid, ListItem, Paper, Tooltip, Typograp
 import React, { useState } from 'react'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 const Card = (props) => {
 
@@ -12,7 +14,7 @@ const Card = (props) => {
 
     let { title, combustivel } = data;
 
-    window.open(`https://api.whatsapp.com/send?phone=5511997831826&text=*Estou%20interessado*%0aVeiculo%0a${title}%0a${combustivel}%0aData%20da%20Retira:${props.startDate}%0aData%20da%20Devolução:${props.startDate}%0a*Preencha%20os%20Campos*%0aNome:%0aTelefone:%0aCEP:%0aEndereço%0aBairro:%0aNúmero:%0aCidade:%0aEstado:%0a`)
+    window.open(`https://api.whatsapp.com/send?phone=5511997831826&text=*Estou%20interessado!*%0aVeiculo%0a${title}%0a${combustivel}%0aData%20da%20Retira:${props.startDate}%0aData%20da%20Devolução:${props.startDate}%0a*Preencha%20os%20Campos*%0aNome:%0aTelefone:%0aCEP:%0aEndereço%0aBairro:%0aNúmero:%0aCidade:%0aEstado:%0a`)
   }
 
   return (
@@ -63,7 +65,14 @@ const Card = (props) => {
 
               {someDetail && (
                 <Grid container justifyContent={'center'}>
-                  DETALHES...
+                  <Grid item>
+                    <ListItem >
+                      Ar-Condicionado:{props.data.arcondicionado ? <CheckCircleIcon color={'success'} /> : <CheckBoxOutlineBlankIcon color={'inherit'} />}
+                    </ListItem>
+                    <ListItem >
+                      Transmissão:{props.data['Transmissão']}
+                    </ListItem>
+                  </Grid>
                 </Grid>
               )}
             </Grid>
