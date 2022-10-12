@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const ReservaPage = () => {
-  
+
   const navigate = useNavigate();
 
   const columns = [
