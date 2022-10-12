@@ -51,7 +51,7 @@ const ReservaDetail = () => {
     setAutomaker(dataInput.brand)
     setModel(dataInput.model)
     setPlate(dataInput._id)
-  },[dataInput])
+  }, [dataInput])
 
   useEffect(() => {
     setEndDate(
@@ -101,7 +101,7 @@ const ReservaDetail = () => {
       (response) => {
         setSelectCars(response);
       },
-      (error) => {}
+      (error) => { }
     );
   }, []);
 
@@ -196,7 +196,7 @@ const ReservaDetail = () => {
               value={dataInput.model}
               label={"Modelo"}
               id={'model'}
-              onChange={({target}) => {
+              onChange={({ target }) => {
                 setModel(target.value)
               }}
             ></TextField>
@@ -465,7 +465,7 @@ const ReservaDetail = () => {
             <Grid item lg={"auto"} xs={"auto"}>
               <Button
                 onClick={() => {
-                  navigate(-1);
+                  navigate('/reserva');
                 }}
                 startIcon={<UndoIcon />}
                 size="large"

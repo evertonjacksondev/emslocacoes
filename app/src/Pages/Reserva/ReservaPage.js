@@ -76,7 +76,7 @@ const ReservaPage = () => {
             variant="contained"
             color="info"
             onClick={() => {
-              navigate("/reserva/new");
+              navigate("/reserva/new");F
             }}
           >
             Adicionar Reserva
