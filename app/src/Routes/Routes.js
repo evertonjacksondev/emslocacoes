@@ -2,23 +2,26 @@ import React from "react";
 import { Fragment } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar/NavBar";
-import CreateNewCar from "../Pages/CreateNewCar/CreateNewCar";
-import Home from "../Pages/Home/Home";
-import Reserva from "../Pages/Reserva/Reserva";
-import ReservaInformation from "../Pages/Reserva/ReservaInformation";
+import CarsDetail from "../Pages/Cars/CarsDetail";
+import CarsPage from "../Pages/Cars/CarsPage";
+import Catalog from "../Pages/Catalog/Catalog";
+import ReservaPage from "../Pages/Reserva/ReservaPage";
+import ReservaDetail from "../Pages/Reserva/ReservaDetail";
 
 
 const AppRoute = () => {
     return (
         <Fragment>
-            {['/frota', '/reserva', '/frota/:id'].includes(window.location.pathname.toLocaleLowerCase()) && <NavBar />}
+            {['/frota', '/cadastro', '/cadastro/new', '/reserva', '/reserva/'].includes(useLocation().pathname.toLocaleLowerCase()) && <NavBar />}
             <Routes>
-                <Route path="*" element={<Home />} />
-                <Route path="/catalogo" element={<Home />} />
-                <Route path="/frota/:id" element={<CreateNewCar />} />
-                <Route path="/frota" element={<Home />} />
-                <Route path="/reserva" element={<Reserva />} />
-                <Route path="/reserva/:id" element={<ReservaInformation />} />
+                <Route path="*" element={<Catalog />} />
+                <Route path="/catalogo" element={<Catalog />} />
+                <Route path="/frota" element={<Catalog />} />
+                <Route path="/frota/:id" element={<CarsPage />} />
+                <Route path="/cadastro" element={<CarsPage />} />
+                <Route path="/cadastro/:id" element={<CarsDetail />} />
+                <Route path="/reserva" element={<ReservaPage />} />
+                <Route path="/reserva/:id" element={<ReservaDetail />} />
             </Routes>
         </Fragment>
     );

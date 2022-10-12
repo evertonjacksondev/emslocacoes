@@ -5,7 +5,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { getCatalogId, postCreateCatalog } from '../../util/Api'
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useParams } from "react-router-dom";
-
 import React, { Fragment, useEffect, useState } from 'react'
 import NavBar from '../../Components/NavBar/NavBar';
 import { Box } from '@mui/system';
@@ -28,18 +27,18 @@ const CarsDetail = () => {
     e.preventDefault();
 
     // show the form values
-    const formData = new FormData(e.target);
-    const title = formData.get('title');
-    const brand = formData.get('brand');
-    const model = formData.get('model');
-    const version = formData.get('version');
-    const ano = formData.get('year');
-    const Transmissão = formData.get('transmissao');
-    const motor = formData.get('motor');
-    const combustivel = formData.get('combustivel');
-    const arcondicionado = formData.get('arcondicionado');
-    const image = formData.get('image');
-    const category = formData.get('category');
+    // const formData = new FormData(e.target);
+    // const title = formData.get('title');
+    // const brand = formData.get('brand');
+    // const model = formData.get('model');
+    // const version = formData.get('version');
+    // const ano = formData.get('year');
+    // const Transmissão = formData.get('transmissao');
+    // const motor = formData.get('motor');
+    // const combustivel = formData.get('combustivel');
+    // const arcondicionado = formData.get('arcondicionado');
+    // const image = formData.get('image');
+    // const category = formData.get('category');
 
 
     let data = {};
@@ -56,7 +55,6 @@ const CarsDetail = () => {
     if (image) data['image'] = image;
     if (category) data['category'] = category;
 
-
     postCreateCatalog(data, (response) => { }, (error) => { })
 
 
@@ -65,7 +63,7 @@ const CarsDetail = () => {
   return (
     <Fragment>
       <NavBar />
-      <Box component={"form"} onSubmit={handleSubmit} >
+      <Box component={"form"} onSubmit={() => { handleSubmit() }} >
         <Grid container justifyContent='center' >
           <Grid item style={{ border: 5 }} xs={3}>
             <Avatar style={{ width: 250, height: 300, borderRadius: '10px' }}></Avatar>

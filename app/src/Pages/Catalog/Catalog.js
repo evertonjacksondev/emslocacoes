@@ -4,17 +4,19 @@ import { Button, Paper, TextField } from '@mui/material';
 import { formatDate } from '../../lib/date';
 import { getCatalog } from '../../util/Api';
 import Card from '../../Components/NavBar/Card';
+import loading from '../../../src/images/loading.gif'
 
 const Catalog = () => {
   const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [endDate, setEndDate] = useState(formatDate(new Date()));
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-
+    setIsLoading(true);
     getCatalog(
-      (response) => { setData(response) },
-      (error) => { }
+      (response) => { setData(response); setIsLoading(false) },
+      (error) => { setIsLoading(false) }
     )
   }, [])
 
@@ -54,12 +56,14 @@ const Catalog = () => {
         </Grid>
       </Paper>
 
+      {isLoading ?
+        <Grid container justifyContent={'center'}>
+          <img style={{ width: 500 }} src={loading}></img>
+        </Grid> : (
+          <Grid container > {data.map(item => <Card endDate={endDate} startDate={startDate} data={item} />)}
+          </Grid>
 
-      {data.length > 0 && (
-        <Grid container > {data.map(item => <Card endDate={endDate} startDate={startDate} data={item} />)}
-        </Grid>
-
-      )}
+        )}
 
     </Fragment >
   )

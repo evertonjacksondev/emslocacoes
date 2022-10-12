@@ -13,9 +13,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../../src/Images/7827920359_6d3bc5a7-fd0e-4e67-8438-36ffd1090e08.webp'
+import logo from '../../../src/images/logoEms.webp'
 const drawerWidth = 240;
-const navItems = ['Frota', 'Reserva', 'Cadastro'];
+const navItems = ['Frota', 'Cadastro', 'Reserva'];
 
 const NavBar = (props) => {
 

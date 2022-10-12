@@ -22,7 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { getCatalog } from "../../util/Api";
 import Box from '@mui/material/Box';
 
-const ReservaInformation = () => {
+const ReservaDetail = () => {
   const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [endDate, setEndDate] = useState(
     formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
@@ -482,4 +482,4 @@ const ReservaInformation = () => {
   );
 };
 
-export default ReservaInformation;
+export default ReservaDetail;

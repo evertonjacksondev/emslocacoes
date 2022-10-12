@@ -4,7 +4,8 @@ import React, { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-const Reserva = () => {
+const ReservaPage = () => {
+  
   const navigate = useNavigate();
 
   const columns = [
@@ -108,4 +109,4 @@ const Reserva = () => {
   );
 };
 
-export default Reserva;
+export default ReservaPage;

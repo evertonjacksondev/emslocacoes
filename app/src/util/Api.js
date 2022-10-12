@@ -119,7 +119,7 @@ export const getCatalogId = (_id, success, error) => {
   const configAxios = {
     method: 'get',
     timeout: 20000,
-    url: `${baseUrl}/ems-reserva/${_id}`,
+    url: `${baseUrl}/ems-catalog/${_id}`,
   };
 
   axios(configAxios).then((response) => { success(response.data) }).catch((err) => { error(err.response ? err.response.data : err) });
