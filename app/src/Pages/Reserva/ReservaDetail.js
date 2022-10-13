@@ -19,7 +19,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import { getCep } from "../../lib/cep";
 import { useSnackbar } from "notistack";
 import SearchIcon from "@mui/icons-material/Search";
-import { getCatalog } from "../../util/Api";
+import { getCatalog, getReservaId } from "../../util/Api";
 import Box from '@mui/material/Box';
 
 const ReservaDetail = () => {
@@ -46,6 +46,12 @@ const ReservaDetail = () => {
   const [plate, setPlate] = useState("");
 
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (params.id != 'new') {
+      getReservaId(params.id, (response) => { setDataInput(response) });
+    }
+  }, [])
 
   useEffect(() => {
     setAutomaker(dataInput.brand)
@@ -125,7 +131,7 @@ const ReservaDetail = () => {
 
   return (
     <Fragment>
-      <Box component="form" noValidate onSubmit={handleSubmit}>
+      <Box component={"form"} noValidate onSubmit={handleSubmit}>
         <Grid
           container
           style={{

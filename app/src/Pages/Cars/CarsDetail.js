@@ -178,7 +178,7 @@ const CarsDetail = () => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid >
+        </Grid>
       </Box>
     </Fragment>
   )

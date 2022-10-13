@@ -78,14 +78,13 @@ const CarsPage = () => {
                   Detalhes
                 </Button>
               </Tooltip>
-            </Grid >
+            </Grid>
           );
         }
 
       }
     }
   ];
-
 
   const options = {
     selectableRows: false,
