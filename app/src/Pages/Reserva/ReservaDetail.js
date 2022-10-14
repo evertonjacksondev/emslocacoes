@@ -1,74 +1,92 @@
 import {
   Button,
-  InputLabel,
   Divider,
   Grid,
   MenuItem,
-  Select,
   TextField,
   Typography,
-  FormControl,
 } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { formatDate } from "../../lib/date";
 import InputMask from "react-input-mask";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UndoIcon from "@mui/icons-material/Undo";
 import { getCep } from "../../lib/cep";
 import { useSnackbar } from "notistack";
 import SearchIcon from "@mui/icons-material/Search";
-import { getCatalog } from "../../util/Api";
-import Box from '@mui/material/Box';
+import { getCatalog, getReservaId, postCreateReserva } from "../../util/Api";
+import Box from "@mui/material/Box";
 
 const ReservaDetail = () => {
-  const [startDate, setStartDate] = useState(formatDate(new Date()));
-  const [endDate, setEndDate] = useState(
-    formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
-  );
-  const [zipCodeOrigin, setZipCodeOrigin] = useState("");
-  const navigate = useNavigate();
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [category, setCategory] = useState("");
-  const [automaker, setAutomaker] = useState("");
-  const [price, setPrice] = useState("R$ 0,00");
-  const [name, setName] = useState("");
-  const [address, setAdress] = useState("");
-  const [neighborhood, setNeighborhood] = useState("");
-  const [complement, setComplement] = useState("");
-  const [city, setCity] = useState("");
-  const [uf, setUf] = useState("");
-  const [num, setNum] = useState("");
-  const [selectCars, setSelectCars] = useState([]);
-  const [dataInput, setDataInput] = useState({});
-  const [model, setModel] = useState("");
-  const [plate, setPlate] = useState("");
-
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const params = useParams();
+  const [selectCars, setSelectCars] = useState([]);
+  const [dataInput, setDataInput] = useState((preventState) => {
+    return {
+      ...preventState, startDate: formatDate(new Date()),
+      endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
+    }
+  });
+
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+
+    if (typeof value === 'object') {
+      setDataInput((prevState) => {
+        return {
+          ...prevState,
+          ...value,
+        };
+      });
+
+    } else {
+      setDataInput((prevState) => {
+        return {
+          ...prevState,
+          [name]: value,
+        };
+      });
+    }
+
+  };
 
   useEffect(() => {
-    setAutomaker(dataInput.brand)
-    setModel(dataInput.model)
-    setPlate(dataInput._id)
-  }, [dataInput])
+    if (params.id != "new") {
+      getReservaId(params.id, (response) => {
+        setDataInput(response);
+      }, (error) => { error });
+    }
+  }, []);
 
   useEffect(() => {
-    setEndDate(
-      formatDate(
-        new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))
-      )
+    setDataInput((preventState) => {
+      return {
+        ...preventState,
+        endDate: formatDate(new Date(new Date(dataInput.startDate).setDate(new Date(dataInput.startDate).getDate() + 2)))
+      }
+    }
     );
-  }, [startDate]);
+  }, [dataInput.startDate]);
+
   const fillAdress = () => {
     getCep(
-      zipCodeOrigin.replace("-", ""),
+      dataInput.zipCodeOrigin.replace("-", ""),
       (response) => {
-        let { logradouro, bairro, localidade, uf } = response;
-        if (logradouro) setAdress(logradouro);
-        if (bairro) setNeighborhood(bairro);
-        if (localidade) setCity(localidade);
-        if (uf) setUf(uf);
+        const { logradouro, bairro, localidade, uf } = response;
+        setDataInput((preventState) => {
+          return {
+            ...preventState,
+            address: logradouro,
+            neighborhood: bairro,
+            city: localidade,
+            uf
+          };
+        });
         enqueueSnackbar("Cep consultado", { variant: "success" });
       },
       (error) => enqueueSnackbar("Cep não encontrado", { variant: "error" })
@@ -76,24 +94,20 @@ const ReservaDetail = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    model
-    brand
-    plate
-    price
-    startDate
-    endDate
-    name
-    address
-    phoneNumber
-    zipCodeOrigin
-    address
-    neighborhood
-    num
-    complement
-    city
-    uf
-    postCreateReserva();
+    if (params.id == "new") {
+      e.preventDefault();
+      let idCar = dataInput._id;
+      delete dataInput._id
+      postCreateReserva(
+        dataInput,
+        (response) => {
+          enqueueSnackbar("Cadastrado com sucesso", { variant: "success" });
+          navigate(`/reserva/${response.insertedId}`)
+        },
+        () => { enqueueSnackbar("Não foi possivel realizar o registro", { variant: "error" }) }
+      );
+    }
+
   };
 
   useEffect(() => {
@@ -105,8 +119,9 @@ const ReservaDetail = () => {
     );
   }, []);
 
+
   useEffect(() => {
-    if (category) {
+    if (dataInput.category) {
       let priceCategory = {
         basic: 90,
         plus: 110,
@@ -115,17 +130,18 @@ const ReservaDetail = () => {
         luxo: 250,
       };
 
-      let date1 = new Date(startDate);
-      let date2 = new Date(endDate);
+      let date1 = new Date(dataInput.startDate);
+      let date2 = new Date(dataInput.endDate);
       let diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
 
-      setPrice("R$ " + diffDays * priceCategory[category.toLocaleLowerCase()]);
+      setDataInput((preventState) => { let price = "R$ " + diffDays * priceCategory[dataInput.category.toLocaleLowerCase()]; return { ...preventState, price } }
+      );
     }
-  }, [category, startDate, endDate]);
+  }, [dataInput.category, dataInput.startDate, dataInput.endDate]);
 
   return (
     <Fragment>
-      <Box component="form" noValidate onSubmit={handleSubmit}>
+      <Box component={"form"} noValidate onSubmit={handleSubmit}>
         <Grid
           container
           style={{
@@ -141,12 +157,11 @@ const ReservaDetail = () => {
 
           <Grid item lg={12} xs={12}>
             <TextField
-              onChange={({ target }) => {
-                setDataInput(target.value);
-              }}
               select
               fullWidth
               size="small"
+              value={dataInput.title}
+              onChange={handleChange}
             >
               {selectCars.length > 0 &&
                 selectCars.map((car, index) => (
@@ -159,14 +174,13 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name="category"
               select
               fullWidth
               size="small"
-              value={category}
+              value={dataInput.category}
               label={"Categoria"}
-              onChange={({ target }) => {
-                setCategory(target.value);
-              }}
+              onChange={handleChange}
             >
               <MenuItem value={"basic"}>Basic</MenuItem>
               <MenuItem value={"confort"}>Confort</MenuItem>
@@ -178,35 +192,38 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name="brand"
               disabled={true}
               fullWidth
               size="small"
               value={dataInput.brand}
               label={"Marca"}
               InputLabelProps={{ shrink: true }}
+              onChange={handleChange}
             ></TextField>
           </Grid>
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name={"model"}
               disabled={true}
               size={"small"}
               InputLabelProps={{ shrink: true }}
               fullWidth
               value={dataInput.model}
               label={"Modelo"}
-              id={'model'}
-              onChange={({ target }) => {
-                setModel(target.value)
-              }}
+              id={"model"}
+              onChange={handleChange}
             ></TextField>
           </Grid>
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name="plate"
               disabled={true}
               InputLabelProps={{ shrink: true }}
               inputProps={{ maxLength: 7 }}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Placa"}
@@ -216,19 +233,20 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name="startDate"
               InputLabelProps={{ shrink: true, required: true }}
               size={"small"}
               fullWidth
-              value={startDate}
-              onChange={({ target }) => {
+              value={dataInput.startDate}
+              onChange={(e) => {
                 if (
                   new Date(
                     new Date(
-                      new Date(target.value).setHours(0, 0, 0, 0)
-                    ).setDate(new Date(target.value).getDate() + 1)
+                      new Date(e.target.value).setHours(0, 0, 0, 0)
+                    ).setDate(new Date(e.target.value).getDate() + 1)
                   ) >= new Date(new Date().setHours(0, 0, 0, 0))
                 ) {
-                  setStartDate(target.value);
+                  handleChange(e);
                 } else {
                   enqueueSnackbar("Selecione outra data", { variant: "error" });
                 }
@@ -240,22 +258,23 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <TextField
+              name="endDate"
               InputLabelProps={{ shrink: true, required: true }}
               size={"small"}
               fullWidth
-              value={endDate}
-              onChange={({ target }) => {
+              value={dataInput.endDate}
+              onChange={(e) => {
                 if (
                   new Date(
                     new Date(
-                      new Date(target.value).setHours(0, 0, 0, 0)
-                    ).setDate(new Date(target.value).getDate() + 1)
+                      new Date(e.target.value).setHours(0, 0, 0, 0)
+                    ).setDate(new Date(e.target.value).getDate() + 1)
                   ) >=
-                  new Date(new Date(startDate).setHours(0, 0, 0, 0)).setDate(
-                    new Date(startDate).getDate() + 1
+                  new Date(new Date(dataInput.startDate).setHours(0, 0, 0, 0)).setDate(
+                    new Date(dataInput.startDate).getDate() + 1
                   )
                 ) {
-                  setEndDate(target.value);
+                  handleChange(e);
                 } else {
                   enqueueSnackbar("Selecione outra data", { variant: "error" });
                 }
@@ -267,8 +286,11 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <TextField
+              InputLabelProps={{ shrink: true, required: true }}
+              name="price"
               disabled={true}
-              value={price}
+              value={dataInput.price}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Valor da reserva"}
@@ -295,34 +317,48 @@ const ReservaDetail = () => {
           </Grid>
 
           <Grid item lg={5} xs={6}>
-            <TextField size={"small"} fullWidth label={"Nome"}></TextField>
+            <TextField
+              InputLabelProps={{ shrink: true, required: true }}
+              name="name"
+              size={"small"}
+              fullWidth
+              label={"Nome"}
+              value={dataInput.name}
+              onChange={handleChange}
+            ></TextField>
           </Grid>
 
           <Grid item lg={3} xs={6}>
             <InputMask
+              InputLabelProps={{ shrink: true, required: true }}
               size="small"
-              name="Phonenumber"
-              mask="(99) 99999-9999 "
-              value={phoneNumber}
-              onChange={({ target }) => {
-                setPhoneNumber(target.value);
-              }}
+              name='phoneNumber'
+              mask="(99) 99999-9999"
+              onChange={handleChange}
+              value={dataInput.phoneNumber}
             >
-              {() => <TextField label="Telefone" fullWidth size="small" />}
+              {() => <TextField value={dataInput.phoneNumber} name={"phoneNumber"} label="Telefone" fullWidth size="small" />}
             </InputMask>
           </Grid>
 
           <Grid item lg={2} xs={6}>
             <InputMask
               size="small"
-              name="sCepOrigem"
+              name="zipCodeOrigin"
               mask="99999-999"
-              value={zipCodeOrigin}
-              onChange={({ target }) => {
-                setZipCodeOrigin(target.value);
-              }}
+              value={dataInput.zipCodeOrigin}
+              onChange={handleChange}
             >
-              {() => <TextField label="CEP Origem" fullWidth size="small" />}
+              {() => (
+                <TextField
+                  InputLabelProps={{ shrink: true, required: true }}
+                  name={"zipCodeOrigin"}
+                  label="CEP Origem"
+                  onChange={handleChange}
+                  fullWidth
+                  size="small"
+                />
+              )}
             </InputMask>
           </Grid>
 
@@ -332,7 +368,7 @@ const ReservaDetail = () => {
               variant="contained"
               size="large"
               color="warning"
-              disabled={zipCodeOrigin == ""}
+              disabled={dataInput.zipCodeOrigin == ""}
               onClick={() => {
                 fillAdress();
               }}
@@ -343,8 +379,10 @@ const ReservaDetail = () => {
 
           <Grid item lg={12} xs={6}>
             <TextField
-              value={address}
-              onChange={(e) => setAdress(e.target.value)}
+              InputLabelProps={{ shrink: true, required: true }}
+              name="address"
+              value={dataInput.address}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Endereço"}
@@ -353,8 +391,10 @@ const ReservaDetail = () => {
 
           <Grid item lg={2} xs={6}>
             <TextField
-              value={neighborhood}
-              onChange={(e) => setNeighborhood(e.target.value)}
+              InputLabelProps={{ shrink: true, required: true }}
+              name="neighborhood"
+              value={dataInput.neighborhood}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Bairro"}
@@ -363,8 +403,10 @@ const ReservaDetail = () => {
 
           <Grid item lg={2} xs={6}>
             <TextField
-              value={num}
-              onChange={(e) => setNum(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              name="num"
+              value={dataInput.num}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Numero"}
@@ -373,16 +415,22 @@ const ReservaDetail = () => {
 
           <Grid item lg={4} xs={6}>
             <TextField
+              InputLabelProps={{ shrink: true, required: true }}
+              name="complement"
               size={"small"}
+              value={dataInput.complement}
               fullWidth
               label={"Complemento"}
+              onChange={handleChange}
             ></TextField>
           </Grid>
 
           <Grid item lg={2} xs={6}>
             <TextField
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              InputLabelProps={{ shrink: true, required: true }}
+              name="city"
+              value={dataInput.city}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Cidade"}
@@ -391,9 +439,10 @@ const ReservaDetail = () => {
 
           <Grid item lg={2} xs={6}>
             <TextField
+              name="uf"
               select
-              value={uf}
-              onChange={(e) => setUf(e.target.value)}
+              value={dataInput.uf ? dataInput.uf : ''}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Estado"}
@@ -465,7 +514,7 @@ const ReservaDetail = () => {
             <Grid item lg={"auto"} xs={"auto"}>
               <Button
                 onClick={() => {
-                  navigate('/reserva');
+                  navigate("/reserva");
                 }}
                 startIcon={<UndoIcon />}
                 size="large"
