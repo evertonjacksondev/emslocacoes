@@ -16,7 +16,7 @@ const ReservaPage = () => {
       (error) => { }
     )
   }, [])
-  
+
   const columns = [
     {
       name: "name",
@@ -57,23 +57,22 @@ const ReservaPage = () => {
         display: true,
         sort: false,
         customBodyRenderLite: (dataIndex) => {
-
           return (
             <Grid container justifyContent='flex-end'>
               <Tooltip title="Editar detalhes">
                 <Button
                   onClick={() => { navigate(`/reserva/${data[dataIndex]._id}`) }}
                   variant={'contained'}
-                  style={{ color: 'primary', fontSize: 9, padding: 5, borderRadius: 3, textTransform: 'none' }}
+                  style={{ color: 'primary', fontSize: 9, borderRadius: 3, textTransform: 'none' }}
                 >
                   Detalhes
                 </Button>
               </Tooltip>
-              </Grid>
-              );
-            }
-          }
+            </Grid>
+          );
         }
+      }
+    }
   ];
 
   const options = {
@@ -95,50 +94,32 @@ const ReservaPage = () => {
         rowsPerPage: "Linhas por página:",
         displayRows: "de",
       }
-    }  };
+    }
+  };
 
   return (
     <Fragment>
-      <Grid
-        container
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          padding: 10,
-        }}
-        spacing={1}
-      >
+      <Grid container>
         <Grid item lg={"auto"} xs={"auto"}>
           <Button
             startIcon={<AddBoxIcon />}
             variant="contained"
             color="info"
             onClick={() => {
-              navigate("/reserva/new");F
+              navigate("/reserva/new");
             }}
           >
             Adicionar Reserva
           </Button>
         </Grid>
 
-        <Grid
-          container
-          style={{
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            padding: 50,
-          }}
-          spacing={5}
-        >
-
-          <MUIDataTable
-            title={"Reservas"}
-            data={data}
-            columns={columns}
-            options={options}
-          />
-        </Grid>
       </Grid>
+      <MUIDataTable
+        title={"Reservas"}
+        data={data}
+        columns={columns}
+        options={options}
+      />
     </Fragment>
   );
 };

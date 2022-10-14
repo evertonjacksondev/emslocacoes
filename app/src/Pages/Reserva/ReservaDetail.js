@@ -1,13 +1,10 @@
 import {
   Button,
-  InputLabel,
   Divider,
   Grid,
   MenuItem,
-  Select,
   TextField,
   Typography,
-  FormControl,
 } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,54 +20,71 @@ import { getCatalog, getReservaId, postCreateReserva } from "../../util/Api";
 import Box from "@mui/material/Box";
 
 const ReservaDetail = () => {
-  const [endDate, setEndDate] = useState(
-    formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
-  );
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const params = useParams();
   const [selectCars, setSelectCars] = useState([]);
-  const [dataInput, setDataInput] = useState(() => {return {startDate: formatDate(new Date()), endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))}});
+  const [dataInput, setDataInput] = useState((preventState) => {
+    return {
+      ...preventState, startDate: formatDate(new Date()),
+      endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
+    }
+  });
 
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    setDataInput((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
+
+    if (typeof value === 'object') {
+      setDataInput((prevState) => {
+        return {
+          ...prevState,
+          ...value,
+        };
+      });
+
+    } else {
+      setDataInput((prevState) => {
+        return {
+          ...prevState,
+          [name]: value,
+        };
+      });
+    }
+
   };
 
   useEffect(() => {
     if (params.id != "new") {
       getReservaId(params.id, (response) => {
         setDataInput(response);
-      });
+      }, (error) => { error });
     }
   }, []);
 
   useEffect(() => {
-    setEndDate(
-      formatDate(
-        new Date(new Date(dataInput.startDate).setDate(new Date(dataInput.startDate).getDate() + 1))
-      )
+    setDataInput((preventState) => {
+      return {
+        ...preventState,
+        endDate: formatDate(new Date(new Date(dataInput.startDate).setDate(new Date(dataInput.startDate).getDate() + 2)))
+      }
+    }
     );
   }, [dataInput.startDate]);
+
   const fillAdress = () => {
     getCep(
       dataInput.zipCodeOrigin.replace("-", ""),
       (response) => {
-        let { logradouro, bairro, localidade, uf } = response;
+        const { logradouro, bairro, localidade, uf } = response;
         setDataInput((preventState) => {
           return {
             ...preventState,
             address: logradouro,
             neighborhood: bairro,
             city: localidade,
-            uf: uf,
+            uf
           };
         });
         enqueueSnackbar("Cep consultado", { variant: "success" });
@@ -82,12 +96,18 @@ const ReservaDetail = () => {
   const handleSubmit = (e) => {
     if (params.id == "new") {
       e.preventDefault();
+      let idCar = dataInput._id;
+      delete dataInput._id
       postCreateReserva(
         dataInput,
-        () => {},
-        () => {}
+        (response) => {
+          enqueueSnackbar("Cadastrado com sucesso", { variant: "success" });
+          navigate(`/reserva/${response.insertedId}`)
+        },
+        () => { enqueueSnackbar("Não foi possivel realizar o registro", { variant: "error" }) }
       );
     }
+
   };
 
   useEffect(() => {
@@ -95,9 +115,10 @@ const ReservaDetail = () => {
       (response) => {
         setSelectCars(response);
       },
-      (error) => {}
+      (error) => { }
     );
   }, []);
+
 
   useEffect(() => {
     if (dataInput.category) {
@@ -110,13 +131,13 @@ const ReservaDetail = () => {
       };
 
       let date1 = new Date(dataInput.startDate);
-      let date2 = new Date(endDate);
+      let date2 = new Date(dataInput.endDate);
       let diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
 
-      setDataInput((preventState) => {let price= "R$ " + diffDays * priceCategory[dataInput.category.toLocaleLowerCase()]; return {...preventState, price}}
+      setDataInput((preventState) => { let price = "R$ " + diffDays * priceCategory[dataInput.category.toLocaleLowerCase()]; return { ...preventState, price } }
       );
     }
-  } ,[dataInput.startDate, endDate]);
+  }, [dataInput.category, dataInput.startDate, dataInput.endDate]);
 
   return (
     <Fragment>
@@ -136,13 +157,11 @@ const ReservaDetail = () => {
 
           <Grid item lg={12} xs={12}>
             <TextField
-              name="title"
-              onChange={({ target }) => {
-                setDataInput(target.value);
-              }}
               select
               fullWidth
               size="small"
+              value={dataInput.title}
+              onChange={handleChange}
             >
               {selectCars.length > 0 &&
                 selectCars.map((car, index) => (
@@ -204,6 +223,7 @@ const ReservaDetail = () => {
               disabled={true}
               InputLabelProps={{ shrink: true }}
               inputProps={{ maxLength: 7 }}
+              onChange={handleChange}
               size={"small"}
               fullWidth
               label={"Placa"}
@@ -218,15 +238,15 @@ const ReservaDetail = () => {
               size={"small"}
               fullWidth
               value={dataInput.startDate}
-              onChange={({ target }) => {
+              onChange={(e) => {
                 if (
                   new Date(
                     new Date(
-                      new Date(target.value).setHours(0, 0, 0, 0)
-                    ).setDate(new Date(target.value).getDate() + 1)
+                      new Date(e.target.value).setHours(0, 0, 0, 0)
+                    ).setDate(new Date(e.target.value).getDate() + 1)
                   ) >= new Date(new Date().setHours(0, 0, 0, 0))
                 ) {
-                  (e) => {handleChange(e)};
+                  handleChange(e);
                 } else {
                   enqueueSnackbar("Selecione outra data", { variant: "error" });
                 }
@@ -242,19 +262,19 @@ const ReservaDetail = () => {
               InputLabelProps={{ shrink: true, required: true }}
               size={"small"}
               fullWidth
-              value={endDate}
-              onChange={({ target }) => {
+              value={dataInput.endDate}
+              onChange={(e) => {
                 if (
                   new Date(
                     new Date(
-                      new Date(target.value).setHours(0, 0, 0, 0)
-                    ).setDate(new Date(target.value).getDate() + 1)
+                      new Date(e.target.value).setHours(0, 0, 0, 0)
+                    ).setDate(new Date(e.target.value).getDate() + 1)
                   ) >=
                   new Date(new Date(dataInput.startDate).setHours(0, 0, 0, 0)).setDate(
                     new Date(dataInput.startDate).getDate() + 1
                   )
                 ) {
-                  setEndDate(target.value);
+                  handleChange(e);
                 } else {
                   enqueueSnackbar("Selecione outra data", { variant: "error" });
                 }
@@ -310,13 +330,14 @@ const ReservaDetail = () => {
 
           <Grid item lg={3} xs={6}>
             <InputMask
+              InputLabelProps={{ shrink: true, required: true }}
               size="small"
-              name="Phonenumber"
-              mask="(99) 99999-9999 "
-              value={dataInput.phoneNumber}
+              name='phoneNumber'
+              mask="(99) 99999-9999"
               onChange={handleChange}
+              value={dataInput.phoneNumber}
             >
-              {() => <TextField label="Telefone" fullWidth size="small" />}
+              {() => <TextField value={dataInput.phoneNumber} name={"phoneNumber"} label="Telefone" fullWidth size="small" />}
             </InputMask>
           </Grid>
 
@@ -333,6 +354,7 @@ const ReservaDetail = () => {
                   InputLabelProps={{ shrink: true, required: true }}
                   name={"zipCodeOrigin"}
                   label="CEP Origem"
+                  onChange={handleChange}
                   fullWidth
                   size="small"
                 />
@@ -381,7 +403,7 @@ const ReservaDetail = () => {
 
           <Grid item lg={2} xs={6}>
             <TextField
-              InputLabelProps={{ shrink: true, required: true }}
+              InputLabelProps={{ shrink: true }}
               name="num"
               value={dataInput.num}
               onChange={handleChange}
@@ -419,7 +441,7 @@ const ReservaDetail = () => {
             <TextField
               name="uf"
               select
-              value={dataInput.uf ? dataInput.uf : '' }
+              value={dataInput.uf ? dataInput.uf : ''}
               onChange={handleChange}
               size={"small"}
               fullWidth
