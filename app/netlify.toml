@@ -1,4 +1,4 @@
 [build]
-base = "./app"
-command = "npm i --force && npm run build"
-publish = "./app/build"
+base = "/app"
+command = "npm i --force"
+publish = "app/"
