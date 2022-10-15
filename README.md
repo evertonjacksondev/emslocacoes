@@ -21,7 +21,7 @@ Register in the login page.
 
 Choose the date where you want to rent the car and select one of the available cars.
 
-You will be redirect with your order to WhatsApp chat with staff.
+You will be redirect with your order to a WhatsApp chat with staff.
 
 
 
