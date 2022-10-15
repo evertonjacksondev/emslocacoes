@@ -48,8 +48,8 @@ $ npm start
  ##  Credenciais to teste
  https://ems-locacoes.netlify.app/admin
  
- admin@admin.com
- password: admin
+ - mail: admin@admin.com
+ - password: admin
     
 ## Features
 
