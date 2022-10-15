@@ -31,16 +31,16 @@ To install it and run it in your machine, do the following:
 
 From your command line:
 
-## Clone this repository
+### Clone this repository
 $ git clone https://github.com/evertonjacksondev/emslocacoes/
 
-## Go into the repository
+### Go into the repository
 $ cd emslocacoes
 
-## Install dependencies
+### Install dependencies
 $ npm install
 
-## Run the app
+### Run the app
 $ npm start
 
     
