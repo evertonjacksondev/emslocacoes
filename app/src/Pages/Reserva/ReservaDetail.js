@@ -16,7 +16,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import { getCep } from "../../lib/cep";
 import { useSnackbar } from "notistack";
 import SearchIcon from "@mui/icons-material/Search";
-import { getCatalog, getReservaId, postCreateReserva } from "../../util/Api";
+import { deleteReservaId, getCatalog, getReservaId, postCreateReserva, putReservaId } from "../../util/Api";
 import Box from "@mui/material/Box";
 
 const ReservaDetail = () => {
@@ -94,9 +94,9 @@ const ReservaDetail = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (params.id == "new") {
-      e.preventDefault();
-      let idCar = dataInput._id;
+
       delete dataInput._id
       postCreateReserva(
         dataInput,
@@ -106,10 +106,28 @@ const ReservaDetail = () => {
         },
         () => { enqueueSnackbar("Não foi possivel realizar o registro", { variant: "error" }) }
       );
+    } else {
+      putReservaId(
+        params.id,
+        dataInput,
+        (response) => {
+          enqueueSnackbar("Atualizado com sucesso", { variant: "success" });
+          navigate(`/reserva/${params.id}`) && navigate(0)
+        },
+        () => { enqueueSnackbar("Não foi possivel realizar o registro", { variant: "error" }) }
+      );
+
+
     }
 
   };
 
+  const handleDelete = (_id) => {
+    deleteReservaId(_id,
+      () => { enqueueSnackbar("Deletado com sucesso", { variant: "success" }); navigate('/reserva') },
+      () => { })
+
+  };
   useEffect(() => {
     getCatalog(
       (response) => {
@@ -158,14 +176,15 @@ const ReservaDetail = () => {
           <Grid item lg={12} xs={12}>
             <TextField
               select
+              name="title"
               fullWidth
               size="small"
-              value={dataInput.title}
+              value={dataInput.title ? dataInput.title : ''}
               onChange={handleChange}
             >
               {selectCars.length > 0 &&
                 selectCars.map((car, index) => (
-                  <MenuItem key={index} value={car}>
+                  <MenuItem key={index} value={car.title}>
                     {car.title}
                   </MenuItem>
                 ))}
@@ -178,7 +197,7 @@ const ReservaDetail = () => {
               select
               fullWidth
               size="small"
-              value={dataInput.category}
+              value={dataInput.category ? dataInput.category : ''}
               label={"Categoria"}
               onChange={handleChange}
             >
@@ -337,7 +356,7 @@ const ReservaDetail = () => {
               onChange={handleChange}
               value={dataInput.phoneNumber}
             >
-              {() => <TextField value={dataInput.phoneNumber} name={"phoneNumber"} label="Telefone" fullWidth size="small" />}
+              {() => <TextField InputLabelProps={{ shrink: true, required: true }} value={dataInput.phoneNumber} name={"phoneNumber"} label="Telefone" fullWidth size="small" />}
             </InputMask>
           </Grid>
 
@@ -368,6 +387,7 @@ const ReservaDetail = () => {
               variant="contained"
               size="large"
               color="warning"
+              fullWidth
               disabled={dataInput.zipCodeOrigin == ""}
               onClick={() => {
                 fillAdress();
@@ -506,6 +526,7 @@ const ReservaDetail = () => {
                 size="large"
                 variant="contained"
                 color="error"
+                onClick={() => { handleDelete(params.id) }}
               >
                 Excluir
               </Button>

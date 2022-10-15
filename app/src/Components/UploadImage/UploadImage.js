@@ -37,16 +37,20 @@ const UploadImage = (props) => {
     }
   });
 
+
+
+
   useEffect(() => {
 
-    props.setDataInput((preventState) => {
+    if (files[0]?.preview) {
+      props.setDataInput((preventState) => {
+        return {
+          ...preventState,
+          image: files[0]?.preview
+        }
 
-      return {
-        ...preventState,
-        image: files[0]?.preview
-      }
-
-    })
+      })
+    }
   }, [files])
 
   let classes = "dropzone";
