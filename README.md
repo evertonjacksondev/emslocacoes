@@ -51,7 +51,7 @@ $ npm start
 
 - Responsiveness
 - Add new cars
-- - Edit reservations
+- Edit reservations
 - Rented cars are unavailable
 - Connects with WhatsApp API
 
