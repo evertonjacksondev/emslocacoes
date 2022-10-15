@@ -10,7 +10,7 @@ An easy way to rent cars.
 
 ## Deployment
 
-You can access this project at https://main--neon-valkyrie-6237a9.netlify.app/
+You can access this project at (https://ems-locacoes.netlify.app/)
 
 
 ## How to Use
