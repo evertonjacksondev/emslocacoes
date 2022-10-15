@@ -16,12 +16,14 @@ You can access this project at (https://ems-locacoes.netlify.app/)
 
 
 
+
 ## How to Use
 Register in the login page.
 
 Choose the date where you want to rent the car and select one of the available cars.
 
 You will be redirect with your order to a WhatsApp chat with staff.
+
 
 
 
@@ -43,6 +45,7 @@ $ npm install
 ### Run the app
 $ npm start
 
+
     
 ## Features
 
@@ -53,6 +56,7 @@ $ npm start
 - Connects with WhatsApp API
 
 
+
 ## Roadmap
 
 Link to the project planning at Miro:
@@ -60,10 +64,12 @@ Link to the project planning at Miro:
 https://miro.com/app/board/uXjVPUyIGyE=/
 
 
+
 ## Credits
 This software uses the following open source packages:
 
 - ReactJS
+
 
 
 ## Authors
