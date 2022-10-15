@@ -45,7 +45,9 @@ $ npm install
 ### Run the app
 $ npm start
 
- ## Credenncias teste "/admin"
+ ##  Credenciais to teste
+ https://ems-locacoes.netlify.app/admin
+ 
  admin@admin.com
  password: admin
     
