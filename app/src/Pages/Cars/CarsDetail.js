@@ -77,10 +77,10 @@ const CarsDetail = () => {
       <NavBar />
       <Box component={"form"} onSubmit={handleSubmit} >
         <Grid container justifyContent='center' >
-          <Grid item style={{ border: 5 }} xs={3}>
+          <Grid item style={{ border: 5 ,positon:'relative' }} xs={12} lg={3} md={3}>
             <UploadImage img={dataInput.image} setDataInput={setDataInput} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} lg={3} md={6}>
             <Grid container spacing={1} justifyContent='center' >
               <Grid item xs={12} lg={12}>
                 <TextField
@@ -96,6 +96,7 @@ const CarsDetail = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name='brand'
+                  fullWidth
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true, required: true }}
                   value={dataInput.brand}
@@ -107,6 +108,7 @@ const CarsDetail = () => {
                   name='model'
                   onChange={handleChange}
                   value={dataInput.model}
+                  fullWidth
                   label={'Modelo'}
                   InputLabelProps={{ shrink: true, required: true }}
                   size={"small"} />
@@ -115,6 +117,7 @@ const CarsDetail = () => {
                 <TextField
                   name={'year'}
                   onChange={handleChange}
+                  fullWidth
                   value={dataInput.ano}
                   InputLabelProps={{ shrink: true, required: true }}
                   label={'Ano'}
@@ -123,6 +126,7 @@ const CarsDetail = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name={'combustivel'}
+                  fullWidth
                   onChange={handleChange}
                   value={dataInput.combustivel}
                   InputLabelProps={{ shrink: true, required: true }}
@@ -132,6 +136,7 @@ const CarsDetail = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name={'Transmissão'}
+                  fullWidth
                   onChange={handleChange}
                   value={dataInput['Transmissão']}
                   InputLabelProps={{ shrink: true, required: true }}
@@ -140,6 +145,7 @@ const CarsDetail = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name={'motor'}
+                  fullWidth
                   onChange={handleChange}
                   value={dataInput.motor}
                   InputLabelProps={{ shrink: true, required: true }}
@@ -163,6 +169,7 @@ const CarsDetail = () => {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <Button
+                  fullWidth
                   startIcon={<AddIcon />}
                   size="small"
                   type='submit'
@@ -174,6 +181,7 @@ const CarsDetail = () => {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <Button
+                  fullWidth
                   startIcon={<DeleteIcon />}
                   size="small"
                   variant="contained"
@@ -190,6 +198,7 @@ const CarsDetail = () => {
                   }}
                   startIcon={<UndoIcon />}
                   size="small"
+                  fullWidth
                   variant="contained"
                   color="inherit"
                 >

@@ -20,7 +20,7 @@ const AppRoute = () => {
                 <Route path="*" element={<Catalog />} />
                 <Route element={<ProtectedRoutes />} >
                     <Route path="/frota" element={<Catalog />} />
-                    <Route path="/sair" element={<Catalog />} />
+                    <Route path="/sair" element={<Login />} />
                     <Route path="/frota/:id" element={<CarsPage />} />
                     <Route path="/cadastro" element={<CarsPage />} />
                     <Route path="/cadastro/:id" element={<CarsDetail />} />
