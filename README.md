@@ -13,9 +13,13 @@ An easy way to rent cars.
 You can access this project at (https://ems-locacoes.netlify.app/)
 
 
+
 ## How to Use
+Register in the login page.
 
+Choose the date where you want to rent the car and select one of the available cars.
 
+You will be redirect with your order to WhatsApp chat with staff.
 
 
 ## Installation
@@ -41,6 +45,7 @@ $ npm start
 
 - Responsiveness
 - Add new cars
+- Details od each car
 - Rented cars are unavailable
 - Connects with WhatsApp API
 
@@ -56,7 +61,8 @@ https://miro.com/app/board/uXjVPUyIGyE=/
 This software uses the following open source packages:
 
 - ReactJS
-- 
+
+
 ## Authors
 
 
