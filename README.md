@@ -45,7 +45,9 @@ $ npm install
 ### Run the app
 $ npm start
 
-
+ ## Credenncias teste "/admin"
+ admin@admin.com
+ password: admin
     
 ## Features
 
