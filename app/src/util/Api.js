@@ -59,7 +59,7 @@ export const putReservaId = (_id, body, success, error) => {
     const configAxios = {
       method: 'put',
       timeout: 20000,
-      url: `${baseUrl}/ems-reserva/${_id}`,
+      url: `${baseUrl}/ems-reservas/${_id}`,
       data: body,
     };
 

@@ -173,6 +173,8 @@ const ReservaDetail = () => {
             <Typography variant="h4">Dados do Veículo</Typography>
           </Grid>
 
+
+
           <Grid item lg={12} xs={12}>
             <TextField
               select
@@ -183,13 +185,24 @@ const ReservaDetail = () => {
               onChange={handleChange}
             >
               {selectCars.length > 0 &&
-                selectCars.map((car, index) => (
-                  <MenuItem key={index} value={car.title}>
-                    {car.title}
-                  </MenuItem>
-                ))}
+                selectCars.map((car, index) => {
+                  return (
+                    <MenuItem key={index} value={car.title} onClick={() => {
+                      setDataInput((preventState) => {
+                        return {
+                          ...preventState,
+                          ...car,
+                          idCar: car._id
+                        }
+                      })
+                    }} >
+                      {car.title}
+                    </MenuItem>)
+                })}
             </TextField>
           </Grid>
+
+
 
           <Grid item lg={3} xs={6}>
             <TextField
@@ -246,7 +259,7 @@ const ReservaDetail = () => {
               size={"small"}
               fullWidth
               label={"Placa"}
-              value={dataInput._id}
+              value={dataInput.idCar}
             ></TextField>
           </Grid>
 
@@ -388,7 +401,7 @@ const ReservaDetail = () => {
               size="large"
               color="warning"
               fullWidth
-              disabled={dataInput.zipCodeOrigin == ""}
+              disabled={dataInput.zipCodeOrigin == "" || dataInput.zipCodeOrigin == undefined}
               onClick={() => {
                 fillAdress();
               }}
@@ -548,7 +561,7 @@ const ReservaDetail = () => {
           </Grid>
         </Grid>
       </Box>
-    </Fragment>
+    </Fragment >
   );
 };
 
