@@ -9,9 +9,12 @@ import React, { Fragment, useEffect, useState } from 'react'
 import NavBar from '../../Components/NavBar/NavBar';
 import { Box } from '@mui/system';
 import { useSnackbar } from "notistack";
+import UploadImage from '../../Components/UploadImage/UploadImage';
+
 
 const CarsDetail = () => {
   const navigate = useNavigate();
+
   const params = useParams()
   const { enqueueSnackbar } = useSnackbar();
   const [dataInput, setDataInput] = useState({});
@@ -41,90 +44,41 @@ const CarsDetail = () => {
       () => { enqueueSnackbar("Deletado com sucesso", { variant: "success" }); navigate('/cadastro') },
       () => { })
 
-  }
+  };
+
   const handleSubmit = (e) => {
     if (params.id == 'new') {
       e.preventDefault();
 
-      const formData = new FormData(e.target);
-      const title = formData.get('title');
-      const brand = formData.get('brand');
-      const model = formData.get('model');
-      const version = formData.get('version');
-      const ano = formData.get('year');
-      const Transmissão = formData.get('transmissao');
-      const motor = formData.get('motor');
-      const combustivel = formData.get('combustivel');
-      const arcondicionado = formData.get('arcondicionado');
-      const image = formData.get('image');
-      const category = formData.get('category');
-
-      let data = {};
-
-      if (title) data['title'] = title;
-      if (brand) data['brand'] = brand;
-      if (model) data['model'] = model;
-      if (version) data['version'] = version;
-      if (ano) data['ano'] = ano;
-      if (Transmissão) data['Transmissão'] = Transmissão;
-      if (motor) data['motor'] = motor;
-      if (combustivel) data['combustivel'] = combustivel;
-      if (arcondicionado) data['arcondicionado'] = arcondicionado;
-      if (image) data['image'] = image;
-      if (category) data['category'] = category;
-
-      postCreateCatalog(data, (response) => {
+      postCreateCatalog(dataInput, (response) => {
         setDataInput(response);
-        navigate(`/cadastro/${response.insertedId}`);
+        navigate(`/cadastro/${response.insertedId}`) && navigate(0);
         enqueueSnackbar("Cadastrado com sucesso", { variant: "success" })
       },
         (error) => { })
     } else {
       e.preventDefault();
 
-      const formData = new FormData(e.target);
-      const title = formData.get('title');
-      const brand = formData.get('brand');
-      const model = formData.get('model');
-      const version = formData.get('version');
-      const ano = formData.get('year');
-      const Transmissão = formData.get('transmissao');
-      const motor = formData.get('motor');
-      const combustivel = formData.get('combustivel');
-      const arcondicionado = formData.get('arcondicionado');
-      const image = formData.get('image');
-      const category = formData.get('category');
 
-      let data = {};
-
-      if (title) data['title'] = title;
-      if (brand) data['brand'] = brand;
-      if (model) data['model'] = model;
-      if (version) data['version'] = version;
-      if (ano) data['ano'] = ano;
-      if (Transmissão) data['Transmissão'] = Transmissão;
-      if (motor) data['motor'] = motor;
-      if (combustivel) data['combustivel'] = combustivel;
-      if (arcondicionado) data['arcondicionado'] = arcondicionado;
-      if (image) data['image'] = image;
-      if (category) data['category'] = category;
-
-      putCatalogId(params.id, data, (response) => {
+      putCatalogId(params.id, dataInput, (response) => {
         setDataInput(response);
-        navigate(`/cadastro/${params.id}`);
-        enqueueSnackbar("Atualizado com sucesso", { variant: "success" })
+        enqueueSnackbar("Atualizado com sucesso", { variant: "success" });
+        navigate(0);
       },
         (error) => { })
 
     }
-  }
+  };
+
+
+
   return (
     <Fragment>
       <NavBar />
       <Box component={"form"} onSubmit={handleSubmit} >
         <Grid container justifyContent='center' >
           <Grid item style={{ border: 5 }} xs={3}>
-            <Avatar style={{ width: 250, height: 300, borderRadius: '10px' }}></Avatar>
+            <UploadImage img={dataInput.image} setDataInput={setDataInput} />
           </Grid>
           <Grid item xs={3}>
             <Grid container spacing={1} justifyContent='center' >
@@ -138,14 +92,7 @@ const CarsDetail = () => {
                   InputLabelProps={{ shrink: true, required: true }}
                   value={dataInput.title} />
               </Grid>
-              <Grid item xs={12} lg={6}>
-                <TextField
-                  label={'Categoria'}
-                  size={"small"}
-                  onChange={handleChange}
-                  InputLabelProps={{ shrink: true, required: true }}
-                  name={'category'} />
-              </Grid>
+
               <Grid item xs={12} lg={6}>
                 <TextField
                   name='brand'
@@ -192,7 +139,18 @@ const CarsDetail = () => {
               </Grid>
               <Grid item xs={12} lg={6}>
                 <TextField
+                  name={'motor'}
+                  onChange={handleChange}
+                  value={dataInput.motor}
+                  InputLabelProps={{ shrink: true, required: true }}
+                  label={'Motor'}
+                  size={"small"} />
+              </Grid>
+
+              <Grid item xs={12} lg={12}>
+                <TextField
                   name={'plate'}
+                  fullWidth
                   value={dataInput._id}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true, required: true }}
@@ -200,14 +158,8 @@ const CarsDetail = () => {
                   label={'Placa'}
                   size={"small"} />
               </Grid>
-              <Grid item xs={12} lg={6}>
-                <TextField
-                  name={'motor'}
-                  onChange={handleChange}
-                  value={dataInput.motor}
-                  InputLabelProps={{ shrink: true, required: true }}
-                  label={'Motor'}
-                  size={"small"} />
+              <Grid item xs={12} lg={12}>
+
               </Grid>
               <Grid item xs={12} lg={4}>
                 <Button

@@ -138,6 +138,8 @@ export const postCreateCatalog = (body, success, error) => {
 export const putCatalogId = (_id, body, success, error) => {
   try {
 
+    delete body._id;
+    
     const configAxios = {
       method: 'put',
       timeout: 20000,

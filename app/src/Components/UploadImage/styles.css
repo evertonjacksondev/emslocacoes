@@ -1,0 +1,34 @@
+
+
+ul {
+  margin: 0;
+}
+
+
+p.error {
+  color: red;
+}
+
+.dropzone {
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-content: center;
+  border: 3px dashed #bdbdbd;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  width: 260px;
+  height: 200px;
+
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.accept {
+  border-color: #107c10 !important;
+}
+
+.reject {
+  border-color: #d83b01 !important;
+}
