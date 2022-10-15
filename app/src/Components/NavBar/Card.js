@@ -1,14 +1,17 @@
-import { Avatar, Button, Chip, Divider, Grid, ListItem, Paper, Tooltip, Typography } from '@mui/material'
+import { Avatar, Button, Chip, Divider, Grid, IconButton, ListItem, Paper, Tooltip, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Card = (props) => {
 
-  const [someDetail, setSomeDetail] = useState(false);
+  let navigate = useNavigate();
 
+  const [someDetail, setSomeDetail] = useState(false);
   const sendMessage = (data) => {
 
 
@@ -22,9 +25,10 @@ const Card = (props) => {
     <Grid item xs={12} md={3} lg={3}>
       <ListItem id='card-item'>
         <Paper style={{ padding: 25 }} elevation={3}>
+          {useLocation().pathname === '/frota' && (<IconButton onClick={() => navigate(`/cadastro/${props.data._id}`)}><EditIcon /></IconButton>)}
           <Grid container spacing={2} justifyContent={'center'}>
             <Grid item textAlign={'center'} lg={12} >
-              <Chip color='info' label={'Alugado'} />
+              <Chip color={props.data.status == 'Alugado' ? 'error' : 'success'} label={props.data.status} />
             </Grid>
             <Grid item >
               <Avatar style={{ width: 100, height: 100, borderRadius: '10px' }} src={props.data.image} variant='square'>
@@ -47,6 +51,7 @@ const Card = (props) => {
             <Grid item xs={12} textAlign={'center'}>
               <Button
                 size='small'
+                disabled={props.data.status == 'Alugado' ? true : false}
                 startIcon={<AddBoxIcon />}
                 variant='contained'
                 onClick={() => { sendMessage(props.data) }}>
