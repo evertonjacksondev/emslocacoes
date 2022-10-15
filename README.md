@@ -40,9 +40,7 @@ $ npm start
 ## Features
 
 - Responsiveness
-- Live previews
-- Fullscreen mode
-- Cross platform
+- 
 
 
 ## Roadmap
