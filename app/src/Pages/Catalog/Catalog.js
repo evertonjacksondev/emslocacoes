@@ -8,8 +8,6 @@ import loading from '../../../src/images/loading.gif'
 import { useSnackbar } from 'notistack';
 
 const Catalog = () => {
-  const [startDate, setStartDate] = useState(formatDate(new Date()));
-  const [endDate, setEndDate] = useState(formatDate(new Date()));
 
   const { enqueueSnackbar } = useSnackbar();
   const [date, setDate] = useState((preventState) => {
@@ -40,7 +38,17 @@ const Catalog = () => {
 
   const validateReserva = () => {
 
-    let adRenteds = reservas.filter(reserva => new Date(new Date(startDate).setHours(0, 0, 0, 0)) >= new Date(new Date(reserva.startDate).setHours(0, 0, 0, 0)) && new Date(new Date(endDate).setHours(0, 0, 0, 0)) <= new Date(new Date(reserva.endDate).setHours(0, 0, 0, 0)));
+    let adRenteds = reservas.filter(
+      reserva =>
+        (new Date(new Date(date.startDate).setHours(0, 0, 0, 0)) >= //start
+          new Date(new Date(reserva.startDate).setHours(0, 0, 0, 0)) &&
+          new Date(new Date(date.startDate).setHours(0, 0, 0, 0)) <=
+          new Date(new Date(reserva.endDate).setHours(0, 0, 0, 0))) ||
+
+        (new Date(new Date(date.endDate).setHours(0, 0, 0, 0)) >= //end
+          new Date(new Date(reserva.startDate).setHours(0, 0, 0, 0)) &&
+          new Date(new Date(date.endDate).setHours(0, 0, 0, 0)) <=
+          new Date(new Date(reserva.endDate).setHours(0, 0, 0, 0))));
 
     setData((preventState) => {
 
@@ -148,7 +156,7 @@ const Catalog = () => {
         <Grid container justifyContent={'center'}>
           <img style={{ width: 500 }} src={loading}></img>
         </Grid> : (
-          <Grid container > {data.map(item => <Card endDate={endDate} startDate={startDate} data={item} />)}
+          <Grid container > {data.map(item => <Card endDate={data.endDate} startDate={date.startDate} data={item} />)}
           </Grid>
 
         )}
