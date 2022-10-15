@@ -29,7 +29,7 @@ You will be redirect with your order to a WhatsApp chat with staff.
 
 ## Installation
 
-To install it and run it in your machine, do the following:
+To install this project and run it in your machine, do the following:
 
 From your command line:
 
