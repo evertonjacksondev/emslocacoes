@@ -7,21 +7,26 @@ import CarsPage from "../Pages/Cars/CarsPage";
 import Catalog from "../Pages/Catalog/Catalog";
 import ReservaPage from "../Pages/Reserva/ReservaPage";
 import ReservaDetail from "../Pages/Reserva/ReservaDetail";
+import Login from "../Pages/Login/Login"
+import { ProtectedRoutes } from "../Routes/auth"
 
 
 const AppRoute = () => {
     return (
         <Fragment>
-            {['/frota', '/cadastro', '/cadastro/new', '/reserva', '/reserva/'].includes(useLocation().pathname.toLocaleLowerCase()) && <NavBar />}
+            {['/frota', '/cadastro', '/cadastro/new', '/reserva', 'Sair'].includes(useLocation().pathname.toLocaleLowerCase()) && <NavBar />}
             <Routes>
+                <Route path="/admin" element={<Login />} />
                 <Route path="*" element={<Catalog />} />
-                <Route path="/catalogo" element={<Catalog />} />
-                <Route path="/frota" element={<Catalog />} />
-                <Route path="/frota/:id" element={<CarsPage />} />
-                <Route path="/cadastro" element={<CarsPage />} />
-                <Route path="/cadastro/:id" element={<CarsDetail />} />
-                <Route path="/reserva" element={<ReservaPage />} />
-                <Route path="/reserva/:id" element={<ReservaDetail />} />
+                <Route element={<ProtectedRoutes />} >
+                    <Route path="/frota" element={<Catalog />} />
+                    <Route path="/sair" element={<Catalog />} />
+                    <Route path="/frota/:id" element={<CarsPage />} />
+                    <Route path="/cadastro" element={<CarsPage />} />
+                    <Route path="/cadastro/:id" element={<CarsDetail />} />
+                    <Route path="/reserva" element={<ReservaPage />} />
+                    <Route path="/reserva/:id" element={<ReservaDetail />} />
+                </Route>
             </Routes>
         </Fragment>
     );

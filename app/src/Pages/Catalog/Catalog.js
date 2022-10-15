@@ -36,9 +36,11 @@ const Catalog = () => {
 
   };
 
+  useEffect(() => { filter() }, [])
+
   const validateReserva = () => {
 
-    let adRenteds = reservas.filter(reserva => new Date(new Date(startDate).setHours(0, 0, 0, 0)) <= new Date(new Date(reserva.startDate).setHours(0, 0, 0, 0)) && new Date(new Date(endDate).setHours(0, 0, 0, 0)) >= new Date(new Date(reserva.endDate).setHours(0, 0, 0, 0)));
+    let adRenteds = reservas.filter(reserva => new Date(new Date(startDate).setHours(0, 0, 0, 0)) >= new Date(new Date(reserva.startDate).setHours(0, 0, 0, 0)) && new Date(new Date(endDate).setHours(0, 0, 0, 0)) <= new Date(new Date(reserva.endDate).setHours(0, 0, 0, 0)));
 
     setData((preventState) => {
 
@@ -57,7 +59,7 @@ const Catalog = () => {
   }
 
 
-  useEffect(() => {
+  const filter = () => {
     setIsLoading(true);
     getCatalog(
       (response) => { setData(response); setIsLoading(false); validateReserva(); },
@@ -65,8 +67,8 @@ const Catalog = () => {
     )
 
     validateReserva();
-  }, [startDate, endDate])
 
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -135,7 +137,7 @@ const Catalog = () => {
 
           </Grid>
           <Grid item xs={3}>
-            <Button variant='contained'>Pesquisar</Button>
+            <Button variant='contained' onClick={() => { filter() }}>Pesquisar</Button>
           </Grid>
 
 
