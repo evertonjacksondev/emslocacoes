@@ -51,7 +51,7 @@ $ npm start
 
 - Responsiveness
 - Add new cars
-- Details od each car
+- Details of each car
 - Rented cars are unavailable
 - Connects with WhatsApp API
 
@@ -62,13 +62,6 @@ $ npm start
 Link to the project planning at Miro:
 
 https://miro.com/app/board/uXjVPUyIGyE=/
-
-
-
-## Credits
-This software uses the following open source packages:
-
-- ReactJS
 
 
 
