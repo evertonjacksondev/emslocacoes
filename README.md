@@ -40,7 +40,9 @@ $ npm start
 ## Features
 
 - Responsiveness
-- 
+- Add new cars
+- Rented cars are unavailable
+- Connects with WhatsApp API
 
 
 ## Roadmap
