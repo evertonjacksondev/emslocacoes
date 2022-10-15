@@ -21,6 +21,8 @@ Choose the date where you want to rent the car and select one of the available c
 
 You will be redirect with your order to WhatsApp chat with staff.
 
+![Sem título3](https://user-images.githubusercontent.com/102061145/195985802-bec68dc5-fc21-487c-a538-a263e73644c3.png)
+
 
 ## Installation
 
