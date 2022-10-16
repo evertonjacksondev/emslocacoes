@@ -14,21 +14,22 @@ import UploadImage from '../../Components/UploadImage/UploadImage';
 
 const CarsDetail = () => {
   const navigate = useNavigate();
-
-  const params = useParams()
+  const params = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const [dataInput, setDataInput] = useState({});
 
 
   useEffect(() => {
     if (params.id != 'new') {
-      getCatalogId(params.id, (response) => { setDataInput(response); });
+      getCatalogId(params.id,
+        (response) => {
+          setDataInput(response);
+        });
     }
-  }, [])
+  }, []);
 
 
   const handleChange = (event) => {
-
     event.preventDefault()
     const { name, value } = event.target;
     setDataInput((prevState) => {
@@ -41,31 +42,41 @@ const CarsDetail = () => {
 
   const handleDelete = (_id) => {
     deleteCatalogId(_id,
-      () => { enqueueSnackbar("Deletado com sucesso", { variant: "success" }); navigate('/cadastro') },
-      () => { })
+      () => {
+        enqueueSnackbar("Deletado com sucesso", { variant: "success" });
+        navigate('/cadastro')
+      },
+      (error) => {
+        enqueueSnackbar(error, { variant: "success" })
+      })
 
   };
 
   const handleSubmit = (e) => {
     if (params.id == 'new') {
       e.preventDefault();
-
-      postCreateCatalog(dataInput, (response) => {
-        setDataInput(response);
-        navigate(`/cadastro/${response.insertedId}`) && navigate(0);
-        enqueueSnackbar("Cadastrado com sucesso", { variant: "success" })
-      },
-        (error) => { })
+      postCreateCatalog(dataInput,
+        (response) => {
+          setDataInput(response);
+          navigate(`/cadastro/${response.insertedId}`);
+          navigate(0);
+          enqueueSnackbar("Cadastrado com sucesso", { variant: "success" })
+        },
+        (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        })
     } else {
       e.preventDefault();
-
-
-      putCatalogId(params.id, dataInput, (response) => {
-        setDataInput(response);
-        enqueueSnackbar("Atualizado com sucesso", { variant: "success" });
-        navigate(0);
-      },
-        (error) => { })
+      putCatalogId(params.id,
+        dataInput,
+        (response) => {
+          setDataInput(response);
+          enqueueSnackbar("Atualizado com sucesso", { variant: "success" });
+          navigate(0);
+        },
+        (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        })
 
     }
   };
@@ -77,7 +88,7 @@ const CarsDetail = () => {
       <NavBar />
       <Box component={"form"} onSubmit={handleSubmit} >
         <Grid container justifyContent='center' >
-          <Grid item style={{ border: 5 ,positon:'relative' }} xs={12} lg={3} md={3}>
+          <Grid item style={{ border: 5, positon: 'relative' }} xs={12} lg={3} md={3}>
             <UploadImage img={dataInput.image} setDataInput={setDataInput} />
           </Grid>
           <Grid item xs={12} lg={3} md={6}>

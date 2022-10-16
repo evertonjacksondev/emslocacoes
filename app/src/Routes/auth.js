@@ -8,24 +8,17 @@ const useAuth = () => {
 };
 
 export const ProtectedRoutes = () => {
-
   const isAuth = useAuth();
   return isAuth ? <Outlet /> : <Navigate to="/catalogo"></Navigate>;
 };
 
 
 export const login = (mail, password, handleSuccess, handleError) => {
-  try {
-    if (mail != 'admin@admin.com') throw handleError('Email incorreto!')
-    if (password != 'admin') throw handleError('Senha incorreta!')
-    sessionStorage.setItem('userLogin', JSON.stringify({ loggedIn: true }));
-    return handleSuccess()
 
-
-  } catch (err) {
-
-
-  }
+  if (mail != 'admin@admin.com') throw handleError('Email incorreto!')
+  if (password != 'admin') throw handleError('Senha incorreta!')
+  sessionStorage.setItem('userLogin', JSON.stringify({ loggedIn: true }));
+  return handleSuccess()
 
 }
 

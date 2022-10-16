@@ -59,7 +59,8 @@ const ReservaDetail = () => {
     if (params.id != "new") {
       getReservaId(params.id, (response) => {
         setDataInput(response);
-      }, (error) => { error });
+      },
+        () => { });
     }
   }, []);
 
@@ -133,7 +134,7 @@ const ReservaDetail = () => {
       (response) => {
         setSelectCars(response);
       },
-      (error) => { }
+      () => { }
     );
   }, []);
 
@@ -173,8 +174,6 @@ const ReservaDetail = () => {
             <Typography variant="h4">Dados do Veículo</Typography>
           </Grid>
 
-
-
           <Grid item lg={12} xs={12}>
             <TextField
               select
@@ -201,9 +200,6 @@ const ReservaDetail = () => {
                 })}
             </TextField>
           </Grid>
-
-
-
           <Grid item lg={3} xs={6}>
             <TextField
               name="category"
@@ -221,7 +217,6 @@ const ReservaDetail = () => {
               <MenuItem value={"premium"}>Premium</MenuItem>
             </TextField>
           </Grid>
-
           <Grid item lg={3} xs={6}>
             <TextField
               name="brand"

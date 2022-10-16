@@ -27,7 +27,7 @@ const Card = (props) => {
         <Paper style={{ padding: 25 }} elevation={3}>
           {useLocation().pathname === '/frota' && (<IconButton onClick={() => navigate(`/cadastro/${props.data._id}`)}><EditIcon /></IconButton>)}
           <Grid container spacing={2} justifyContent={'center'}>
-            <Grid item textAlign={'center'} xs={12}lg={12} >
+            <Grid item textAlign={'center'} xs={12} lg={12} >
               <Chip color={props.data.status == 'Alugado' ? 'error' : 'success'} label={props.data.status} />
             </Grid>
             <Grid item >

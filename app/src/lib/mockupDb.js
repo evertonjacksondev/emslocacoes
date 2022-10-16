@@ -1,4 +1,3 @@
-import { postCreateCatalog } from '../util/Api';
 const axios = require('axios');
 
 export const getMeliAds = (success, error) => {

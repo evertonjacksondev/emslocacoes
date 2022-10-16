@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -12,35 +11,38 @@ import logo from '../../images/logoEms.webp'
 import { Hidden } from '@mui/material';
 import { useEffect } from 'react';
 import { login } from '../../Routes/auth';
-
+import { useState } from 'react';
 
 const theme = createTheme();
 
 const Login = () => {
 
+  const [dataInput, setDataInput] = useState([])
+
   const { enqueueSnackbar } = useSnackbar();
+
+  const handleChange = (event) => {
+    event.preventDefault()
+    const { name, value } = event.target;
+    setDataInput((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-
-
     login(
-      data.get('email'),
-      data.get('password'),
-      (response) => {
+      dataInput.email,
+      dataInput.password,
+      () => {
         window.location.href = '/frota'
-
       },
       (err) => {
-
         enqueueSnackbar(err, { variant: 'error' })
-      })
-
+      });
   };
 
 
@@ -55,7 +57,7 @@ const Login = () => {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
-        <Hidden smDown>
+        <Hidden>
           <Grid item xs={false} sm={3} md={7} sx={{
             width: 1200,
             backgroundImage: `url(${logo})`,
@@ -81,6 +83,7 @@ const Login = () => {
               <TextField
                 margin="normal"
                 required
+                onChange={handleChange}
                 fullWidth
                 id="email"
                 label="Email"
@@ -91,6 +94,7 @@ const Login = () => {
               <TextField
                 margin="normal"
                 required
+                onChange={handleChange}
                 fullWidth
                 name="password"
                 label="Senha"

@@ -13,7 +13,7 @@ const ReservaPage = () => {
 
     getReserva(
       (response) => { setData(response); },
-      (error) => { }
+      () => { }
     )
   }, [])
 

@@ -14,7 +14,7 @@ const CarsPage = () => {
 
     getCatalog(
       (response) => { setData(response); },
-      (error) => { }
+      () => { }
     )
   }, [])
 

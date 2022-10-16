@@ -16,7 +16,7 @@ const Catalog = () => {
       endDate: formatDate(new Date(new Date().setDate(new Date().getDate() + 1)))
     }
   });
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const [reservas, setReservas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +34,9 @@ const Catalog = () => {
 
   };
 
-  useEffect(() => { filter() }, [])
+  useEffect(() => {
+    filter();
+  }, []);
 
   const validateReserva = () => {
 
@@ -62,8 +64,6 @@ const Catalog = () => {
       return result
 
     });
-
-
   }
 
 
@@ -71,19 +71,17 @@ const Catalog = () => {
     setIsLoading(true);
     getCatalog(
       (response) => { setData(response); setIsLoading(false); validateReserva(); },
-      (error) => { setIsLoading(false) }
+      () => { setIsLoading(false) }
     )
-
     validateReserva();
-
   }
-
+f
   useEffect(() => {
     setIsLoading(true);
 
     getReserva(
       (response) => { setReservas(response); setIsLoading(false) },
-      (error) => { setIsLoading(false) }
+      () => { setIsLoading(false) }
     )
   }, [])
 
@@ -144,7 +142,7 @@ const Catalog = () => {
               label={'Data da devolução'} />
 
           </Grid>
-          <Grid item xs={3}>
+          <Grid item alignItems={'center'} xs={3}>
             <Button variant='contained' onClick={() => { filter() }}>Pesquisar</Button>
           </Grid>
 
