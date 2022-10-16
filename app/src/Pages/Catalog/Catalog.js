@@ -75,7 +75,7 @@ const Catalog = () => {
     )
     validateReserva();
   }
-f
+
   useEffect(() => {
     setIsLoading(true);
 
